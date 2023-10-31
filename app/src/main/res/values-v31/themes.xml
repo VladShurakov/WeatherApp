@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.V31.Theme.WeatherApp" parent="Base.V21.Theme.WeatherApp">
+        <item name="android:windowSplashScreenBackground">@color/ic_launcher_background</item>
+        <item name="android:windowSplashScreenAnimationDuration">100000000</item>
+    </style>
+
+    <style name="Base.Theme.WeatherApp" parent="Base.V31.Theme.WeatherApp" />=
+</resources>
