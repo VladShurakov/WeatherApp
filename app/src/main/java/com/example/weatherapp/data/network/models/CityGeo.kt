@@ -8,5 +8,5 @@ import kotlinx.serialization.Serializable
 **/
 @Serializable
 data class CityGeo (
-  @SerializedName("results"           ) var cityResults          : ArrayList<CityResult> = arrayListOf()
+  @SerializedName("results"           ) var cityResults          : List<CityResult> = arrayListOf()
 )

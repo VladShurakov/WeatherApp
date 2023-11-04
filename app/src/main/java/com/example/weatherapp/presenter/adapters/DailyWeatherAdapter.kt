@@ -39,17 +39,19 @@ class DailyWeatherAdapter : RecyclerView.Adapter<DailyWeatherAdapter.DailyWeathe
     }
 
     override fun onBindViewHolder(holder: DailyWeatherHolder, position: Int) {
-        val date = (dailyWeather as NetworkResult.Success<DailyWeather?>).data?.daily?.time?.get(position) ?: ""
-        val weatherCode = (dailyWeather as NetworkResult.Success<DailyWeather?>).data?.daily?.weatherCode?.get(position) ?: 1
-        val drawable = WeatherType.toWeatherType(weatherCode).drawableRes
-        val tempMax = (dailyWeather as NetworkResult.Success<DailyWeather?>).data?.daily?.tempMax?.get(position)
-        val tempMin = (dailyWeather as NetworkResult.Success<DailyWeather?>).data?.daily?.tempMin?.get(position)
-        val temp = "${tempMax}°/${tempMin}°"
-        holder.bind(
-            date = date,
-            weatherDrawable = drawable,
-            temp =temp
-        )
+        (dailyWeather as NetworkResult.Success<DailyWeather?>).apply {
+            val date = this.data?.daily?.time?.get(position) ?: ""
+            val weatherCode = this.data?.daily?.weatherCode?.get(position) ?: 1
+            val drawable = WeatherType.toWeatherType(weatherCode).drawableRes
+            val tempMax = this.data?.daily?.tempMax?.get(position)
+            val tempMin = this.data?.daily?.tempMin?.get(position)
+            val temp = "${tempMax}°/${tempMin}°"
+            holder.bind(
+                date = date,
+                weatherDrawable = drawable,
+                temp =temp
+            )
+        }
     }
 
     override fun getItemCount(): Int {

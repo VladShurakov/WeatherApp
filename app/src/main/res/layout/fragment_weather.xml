@@ -21,9 +21,9 @@
                 android:id="@+id/tvCityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center|bottom"
                 android:textSize="21sp"
-                tools:text="Moscow" />
+                tools:text="City Name" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="18sp"
-            tools:text="1 Januray, 2023 23:59" />
+            tools:text="Date" />
 
         <ImageView
             android:id="@+id/imWeather"
@@ -48,7 +48,7 @@
             android:layout_height="96dp"
             android:layout_gravity="center"
             android:contentDescription="@string/weather"
-            android:translationY="28dp"
+            android:translationY="32dp"
             tools:src="@drawable/ic_cloudy"/>
 
         <LinearLayout
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="54sp"
-                tools:text="23" />
+                tools:text="Temp" />
 
             <TextView
                 android:id="@+id/tvTempUnit"
@@ -72,7 +72,7 @@
                 android:layout_gravity="center"
                 android:gravity="top"
                 android:textSize="21sp"
-                tools:text="°C" />
+                tools:text="°Unit" />
 
         </LinearLayout>
 
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="21sp"
-            tools:text="Sunny" />
+            tools:text="Weather" />
 
         <TextView
             android:id="@+id/tvFeelsLike"
@@ -91,7 +91,7 @@
             android:layout_gravity="center"
             android:paddingTop="4dp"
             android:textSize="18sp"
-            tools:text="Feels 23°C" />
+            tools:text="Feels Temp°" />
 
         <LinearLayout
             android:layout_width="wrap_content"

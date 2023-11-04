@@ -54,7 +54,7 @@ class NetworkRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getGeoByName(name: String): NetworkResult<CityGeo> {
+    override suspend fun getCity(name: String): NetworkResult<CityGeo> {
         return try {
             NetworkResult.Success(
                 data = geoApi.searchCity(name)

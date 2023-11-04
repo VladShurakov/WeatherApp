@@ -14,5 +14,5 @@ interface NetworkRepository {
 
     suspend fun getDailyWeather(latitude: Double, longitude: Double): NetworkResult<DailyWeather>
 
-    suspend fun getGeoByName(name: String): NetworkResult<CityGeo>
+    suspend fun getCity(name: String): NetworkResult<CityGeo>
 }

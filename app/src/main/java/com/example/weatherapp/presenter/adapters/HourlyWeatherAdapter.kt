@@ -38,14 +38,20 @@ class HourlyWeatherAdapter : RecyclerView.Adapter<HourlyWeatherAdapter.HourlyWea
     }
 
     override fun onBindViewHolder(holder: HourlyWeatherHolder, position: Int) {
-        if (hourlyWeather is NetworkResult.Success){
-            val time: String = ((hourlyWeather as NetworkResult.Success<HourlyWeather?>).data?.hourly?.time?.get(position)?.drop(11) ?: "")
-            val weatherCode = (hourlyWeather as NetworkResult.Success<HourlyWeather?>).data?.hourly?.weatherCode?.get(position) ?: 1
+        (hourlyWeather as NetworkResult.Success<HourlyWeather?>).apply {
+
+            val time: String = this.data?.hourly?.time?.get(position)?.drop(11) ?: ""
+            val weatherCode = this.data?.hourly?.weatherCode?.get(position) ?: 0
+
+            val isDay = time.take(2).toInt() in 7..18 // "07:15" -> 7
+
             val drawable = WeatherType.toWeatherType(
-                weatherCode,
-                isDay = time.take(2).toInt() in 7..18
+                weatherCode = weatherCode,
+                isDay = isDay
             ).drawableRes
-            val temp: String = (hourlyWeather as NetworkResult.Success<HourlyWeather?>).data?.hourly?.temp?.get(position).toString() + "°"
+
+            val temp = this.data?.hourly?.temp?.get(position).toString() + "°"
+
             holder.bind(
                 time = time,
                 weatherDrawable = drawable,
@@ -55,7 +61,7 @@ class HourlyWeatherAdapter : RecyclerView.Adapter<HourlyWeatherAdapter.HourlyWea
     }
 
     override fun getItemCount(): Int {
-        return when (hourlyWeather){
+        return when (hourlyWeather) {
             is NetworkResult.Error -> 0
             is NetworkResult.Success -> {
                 (hourlyWeather as NetworkResult.Success<HourlyWeather?>)
@@ -69,5 +75,4 @@ class HourlyWeatherAdapter : RecyclerView.Adapter<HourlyWeatherAdapter.HourlyWea
         this.hourlyWeather = hourlyWeather
         notifyDataSetChanged()
     }
-
 }

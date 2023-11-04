@@ -22,7 +22,7 @@ data class WeatherState(
     val hourlyWeather: NetworkResult<HourlyWeather> = NetworkResult.Error(Exception()),
     val dailyWeather: NetworkResult<DailyWeather> = NetworkResult.Error(Exception()),
     val cityGeo: NetworkResult<CityGeo> = NetworkResult.Error(Exception()),
-    val cityResult: NetworkResult<CityResult> = NetworkResult.Error(Exception()),
+    val cityResult: NetworkResult<CityResult> = NetworkResult.Error(Exception())
 )
 
 @HiltViewModel
@@ -58,10 +58,24 @@ class WeatherViewModel @Inject constructor(
 
             is MainEvent.GetCity -> {
                 viewModelScope.launch {
-                    _weatherState.value = _weatherState.value?.copy(
-                        cityGeo = useCases.getGeoByCity.invoke(event.name)
-                    )
+                    when (val cityGeo = useCases.getCity.invoke(event.name)){
+                        is NetworkResult.Error -> {
+                            // Put cities from database
+                            _weatherState.value = _weatherState.value?.copy(
+                                cityGeo = useCases.getCityFromDB(event.name)
+                            )
+                        }
+                        is NetworkResult.Success -> {
+                            // Put cities from network
+                            _weatherState.value = _weatherState.value?.copy(
+                                cityGeo = cityGeo
+                            )
+                            // Insert cities to database
+                            useCases.insertCities(cityGeo.data.cityResults)
+                        }
+                    }
                 }
+
             }
         }
     }

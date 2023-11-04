@@ -1,15 +1,21 @@
 package com.example.weatherapp.di
 
 import android.content.Context
+import androidx.room.Room
 import com.example.weatherapp.WeatherApplication
+import com.example.weatherapp.data.database.CityDatabase
 import com.example.weatherapp.data.network.GeoApi
 import com.example.weatherapp.data.network.WeatherApi
+import com.example.weatherapp.data.repository.DatabaseRepositoryImpl
 import com.example.weatherapp.data.repository.NetworkRepositoryImpl
+import com.example.weatherapp.domain.repository.DatabaseRepository
 import com.example.weatherapp.domain.repository.NetworkRepository
 import com.example.weatherapp.domain.usecase.GetCurrentWeather
 import com.example.weatherapp.domain.usecase.GetDailyWeather
-import com.example.weatherapp.domain.usecase.GetGeoByCity
+import com.example.weatherapp.domain.usecase.GetCity
 import com.example.weatherapp.domain.usecase.GetHourlyWeather
+import com.example.weatherapp.domain.usecase.InsertCities
+import com.example.weatherapp.domain.usecase.GetCityFromDB
 import com.example.weatherapp.domain.usecase.UseCases
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -39,6 +45,22 @@ import javax.inject.Singleton
 object AppModule {
     private const val HEADER_CACHE_CONTROL = "Cache-Control"
     private const val HEADER_PRAGMA = "Pragma"
+
+    @Provides
+    @Singleton
+    fun provideCityDatabase(@ApplicationContext context: Context): CityDatabase {
+        return Room.databaseBuilder(
+            context = context,
+            klass = CityDatabase::class.java,
+            name = "weather-database"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabaseRepository(cityDatabase: CityDatabase): DatabaseRepository {
+        return DatabaseRepositoryImpl(cityDao = cityDatabase.cityDao())
+    }
 
     @Provides
     @Singleton
@@ -103,7 +125,7 @@ object AppModule {
     @Singleton
     fun provideWeatherApi(okHttpClient: OkHttpClient): WeatherApi {
         val baseurl = "https://api.open-meteo.com/v1/"
-        val retrofit= createRetrofit(okHttpClient, baseurl)
+        val retrofit = createRetrofit(okHttpClient, baseurl)
         return retrofit.create()
     }
 
@@ -111,24 +133,27 @@ object AppModule {
     @Singleton
     fun provideGeoApi(okHttpClient: OkHttpClient): GeoApi {
         val baseurl = "https://geocoding-api.open-meteo.com/v1/"
-        val retrofit= createRetrofit(okHttpClient, baseurl)
+        val retrofit = createRetrofit(okHttpClient, baseurl)
         return retrofit.create()
     }
 
     @Provides
     @Singleton
-    fun provideNetworkRepository(weatherApi: WeatherApi, geoApi: GeoApi): NetworkRepository{
+    fun provideNetworkRepository(weatherApi: WeatherApi, geoApi: GeoApi): NetworkRepository {
         return NetworkRepositoryImpl(weatherApi = weatherApi, geoApi = geoApi)
     }
 
     @Provides
     @Singleton
-    fun provideUseCases(networkRepository: NetworkRepository): UseCases{
+    fun provideUseCases(networkRepository: NetworkRepository, databaseRepository: DatabaseRepository): UseCases {
         return UseCases(
             getCurrentWeather = GetCurrentWeather(networkRepository),
             getHourlyWeather = GetHourlyWeather(networkRepository),
             getDailyWeather = GetDailyWeather(networkRepository),
-            getGeoByCity = GetGeoByCity(networkRepository)
+            getCity = GetCity(networkRepository),
+            insertCities = InsertCities(databaseRepository),
+            getCityFromDB = GetCityFromDB(databaseRepository)
+
         )
     }
 

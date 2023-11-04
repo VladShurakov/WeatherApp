@@ -9,8 +9,7 @@ data class CityResult (
   @SerializedName("name"         ) var name        : String?           = null,
   @SerializedName("latitude"     ) var latitude    : Double?           = null,
   @SerializedName("longitude"    ) var longitude   : Double?           = null,
-  @SerializedName("population"   ) var population  : Long?             = null,
-  @SerializedName("country_code" ) var countryCode: String?            = null,
+  @SerializedName("country_code" ) var countryCode : String?            = null,
   @SerializedName("country"      ) var country     : String?           = null,
   @SerializedName("admin1"       ) var admin       : String?           = null,
 )

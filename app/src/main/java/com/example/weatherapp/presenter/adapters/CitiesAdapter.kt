@@ -12,29 +12,25 @@ import com.example.weatherapp.data.network.models.CityGeo
 import com.example.weatherapp.data.network.models.CityResult
 import com.example.weatherapp.databinding.CardCityBinding
 import com.example.weatherapp.domain.util.NetworkResult
+import com.example.weatherapp.presenter.adapters.models.CityAdapterModel
 
 
 class CitiesAdapter(
     private val onCityListener: OnCityListener,
 ) : RecyclerView.Adapter<CitiesAdapter.CityHolder>() {
-
     private var cityGeo: NetworkResult<CityGeo?> = NetworkResult.Success(CityGeo())
 
     inner class CityHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = CardCityBinding.bind(view)
 
-        fun bind(cityResult: CityResult, onCityListener: OnCityListener) = with(binding) {
-            val between = when {
-                cityResult.admin.isNullOrBlank() || cityResult.country.isNullOrBlank() -> ""
-                else -> ", "
-            }
-            val cityInfo = cityResult.admin + between + cityResult.country
-            val countryCode = cityResult.countryCode?.lowercase()
-            val url = "https://raw.githubusercontent.com/hampusborgos/country-flags/main/png100px/${countryCode}.png"
-
-            tvCityName.text = cityResult.name
-            tvCityInfo.text = cityInfo
-            imCountry.load(url){
+        fun bind(
+            cityAdapterModel: CityAdapterModel,
+            cityResult: CityResult,
+            onCityListener: OnCityListener
+        ) = with(binding) {
+            tvCityName.text = cityAdapterModel.cityName
+            tvCityInfo.text = cityAdapterModel.cityInfo
+            imCountry.load(cityAdapterModel.flagUrl) {
                 crossfade(true)
                 error(R.drawable.unknown)
                 transformations(CircleCropTransformation())
@@ -60,14 +56,30 @@ class CitiesAdapter(
     }
 
     override fun onBindViewHolder(holder: CityHolder, position: Int) {
-        holder.bind(
-            cityResult = (cityGeo as NetworkResult.Success<CityGeo?>).data?.cityResults?.get(position) ?: CityResult(),
-            onCityListener = onCityListener
-        )
+        ((cityGeo as NetworkResult.Success<CityGeo?>).data?.cityResults?.get(position)).apply {
+            val cityName = this?.name ?: ""
+            val between = when {
+                this?.admin.isNullOrBlank() || this?.country.isNullOrBlank() -> ""
+                else -> ", "
+            }
+            val cityInfo = (this?.admin ?: "") + between + (this?.country ?: "")
+            val countryCode = this?.countryCode?.lowercase()
+            val url = "https://raw.githubusercontent.com/hampusborgos/country-flags/main/png100px/"
+            val flagUrl =  url + "${countryCode}.png"
+            holder.bind(
+                cityAdapterModel = CityAdapterModel(
+                    cityName = cityName,
+                    cityInfo = cityInfo,
+                    flagUrl = flagUrl
+                ),
+                cityResult = this ?: CityResult(),
+                onCityListener = onCityListener
+            )
+        }
     }
 
     override fun getItemCount(): Int {
-        return when (cityGeo){
+        return when (cityGeo) {
             is NetworkResult.Error -> 0
             is NetworkResult.Success -> {
                 (cityGeo as NetworkResult.Success<CityGeo?>)
