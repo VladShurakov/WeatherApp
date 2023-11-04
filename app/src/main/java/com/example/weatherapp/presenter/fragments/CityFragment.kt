@@ -19,7 +19,6 @@ import com.example.weatherapp.presenter.viewmodels.WeatherViewModel
 class CityFragment(
     private val viewModel: WeatherViewModel
 ) : Fragment(), CitiesAdapter.OnCityListener {
-
     private var binding: FragmentCityBinding? = null
 
     override fun onCreateView(
