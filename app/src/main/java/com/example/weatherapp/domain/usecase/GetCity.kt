@@ -1,6 +1,6 @@
 package com.example.weatherapp.domain.usecase
 
-import com.example.weatherapp.data.network.models.CityGeo
+import com.example.weatherapp.domain.models.network.CityGeo
 import com.example.weatherapp.domain.repository.NetworkRepository
 import com.example.weatherapp.domain.util.NetworkResult
 
@@ -9,6 +9,6 @@ class GetCity(
 ) {
 
     suspend operator fun invoke(name: String): NetworkResult<CityGeo> {
-        return repository.getCity(name)
+        return repository.getCities(name)
     }
 }

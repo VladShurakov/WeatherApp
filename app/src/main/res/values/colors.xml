@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryTextColor">#FFFFFF</color>
-    <color name="primaryBackground">#1E1F22</color>
-    <color name="secondaryTextColor">#B1B1B1</color>
-    <color name="secondaryBackground">#292A2E</color>
-    <color name="invertedColor">#FFFFFF</color>
+    <!--    Launcher Color. -->
     <color name="ic_launcher_background">#565BE6</color>
+    <!--    Primary Colors. -->
+    <color name="primaryTextColor">#292A2E</color>
+    <color name="primaryBackground">#F7F7F7</color>
+    <!--    Secondary Colors. -->
+    <color name="secondaryTextColor">#777777</color>
+    <color name="secondaryBackground">#FCFCFC</color>
+    <!--    Icon Color. -->
+    <color name="invertedColor">#292A2E</color>
 </resources>

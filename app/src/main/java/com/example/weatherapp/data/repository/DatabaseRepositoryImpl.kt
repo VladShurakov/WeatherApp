@@ -2,7 +2,7 @@ package com.example.weatherapp.data.repository
 
 import com.example.weatherapp.data.database.CityDao
 import com.example.weatherapp.data.database.models.CityEntity
-import com.example.weatherapp.data.network.models.CityResult
+import com.example.weatherapp.domain.models.network.CityResult
 import com.example.weatherapp.domain.repository.DatabaseRepository
 import javax.inject.Inject
 
@@ -25,8 +25,8 @@ class DatabaseRepositoryImpl @Inject constructor(
         return cityDao.insertCities(cityEntities)
     }
 
-    override suspend fun getCityFromDB(name: String): List<CityResult> {
-        return cityDao.searchCity(name).map { cityEntity ->
+    override suspend fun getCitiesFromDB(name: String): List<CityResult> {
+        return cityDao.getCities(name).map { cityEntity ->
             CityResult(
                 id = cityEntity.id,
                 name = cityEntity.name,

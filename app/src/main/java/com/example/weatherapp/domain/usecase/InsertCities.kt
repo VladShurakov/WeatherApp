@@ -1,6 +1,6 @@
 package com.example.weatherapp.domain.usecase
 
-import com.example.weatherapp.data.network.models.CityResult
+import com.example.weatherapp.domain.models.network.CityResult
 import com.example.weatherapp.domain.repository.DatabaseRepository
 
 class InsertCities(

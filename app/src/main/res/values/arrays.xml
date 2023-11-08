@@ -1,0 +1,19 @@
+<resources>
+    <!-- Temp Unit -->
+    <string-array name="temp_units">
+        <item>Celsius(°C)</item>
+        <item>Fahrenheit(°F)</item>
+    </string-array>
+    <!-- Wind Speed Unit -->
+    <string-array name="wind_speed_units">
+        <item>km/h</item>
+        <item>m/s</item>
+        <item>Mph</item>
+        <item>Knots</item>
+    </string-array>
+    <!-- Precipitation Unit -->
+    <string-array name="precipitation_units">
+        <item>Millimeter</item>
+        <item>Inch</item>
+    </string-array>
+</resources>

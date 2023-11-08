@@ -2,37 +2,50 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryBackground"
     tools:context=".presenter.fragments.WeatherFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginHorizontal="8dp">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/ibAdd"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="4dp"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/ic_add"
+                android:contentDescription="@string/add" />
 
             <TextView
                 android:id="@+id/tvCityName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|bottom"
+                android:layout_weight="1"
+                android:layout_gravity="bottom"
+                android:gravity="center"
                 android:textSize="21sp"
                 tools:text="City Name" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                app:menu="@menu/weather_menu"/>
+            <ImageButton
+                android:id="@+id/ibSettings"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="4dp"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/ic_settings"
+                android:contentDescription="@string/settings" />
 
-        </FrameLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvDate"
@@ -48,8 +61,9 @@
             android:layout_height="96dp"
             android:layout_gravity="center"
             android:contentDescription="@string/weather"
-            android:translationY="32dp"
-            tools:src="@drawable/ic_cloudy"/>
+            android:translationY="24dp"
+            tools:ignore="ImageContrastCheck"
+            tools:src="@drawable/ic_cloudy" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -94,10 +108,11 @@
             tools:text="Feels Temp°" />
 
         <LinearLayout
+            android:id="@+id/llWeatherInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="4dp"
             android:paddingVertical="8dp"
             android:gravity="center"
             android:orientation="horizontal">
@@ -106,39 +121,34 @@
                 android:id="@+id/tvHumidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
                 android:contentDescription="@string/humidity"
                 android:drawablePadding="8dp"
                 android:textAlignment="textStart"
                 android:textSize="16sp"
                 app:drawableStartCompat="@drawable/ic_humidity"
-                app:drawableTint="@color/invertedColor"
                 tools:text="0" />
 
             <TextView
                 android:id="@+id/tvWindSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
+                android:layout_marginHorizontal="18dp"
                 android:contentDescription="@string/wind_speed"
                 android:drawablePadding="8dp"
                 android:gravity="center"
                 android:textSize="16sp"
                 app:drawableStartCompat="@drawable/ic_wind"
-                app:drawableTint="@color/invertedColor"
                 tools:text="0" />
 
             <TextView
                 android:id="@+id/tvPrecipitation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:contentDescription="@string/pressure"
                 android:drawablePadding="8dp"
                 android:gravity="center"
                 android:textSize="16sp"
                 app:drawableStartCompat="@drawable/ic_pressure"
-                app:drawableTint="@color/invertedColor"
                 tools:text="0" />
 
         </LinearLayout>
@@ -147,13 +157,13 @@
             android:id="@+id/rvHourlyWeather"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="8dp"
-            android:paddingHorizontal="4dp"/>
+            android:paddingVertical="8dp"/>
 
         <TextView
+            android:id="@+id/tv7DayForecast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:layout_gravity="start"
             android:text="@string/week_forecast"
             android:textSize="18sp"/>
@@ -163,7 +173,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="8dp"
-            android:paddingHorizontal="4dp"
             android:nestedScrollingEnabled="false"/>
 
     </LinearLayout>

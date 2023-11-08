@@ -1,20 +1,22 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Base.V21.Theme.WeatherApp" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <!--    Primary Color. -->
-        <item name="colorPrimary">@color/primaryBackground</item>
-        <item name="colorPrimaryVariant">@color/primaryBackground</item>
-        <!--    Secondary Color. -->
-        <item name="colorSecondary">@color/secondaryBackground</item>
-        <item name="colorSecondaryVariant">@color/secondaryBackground</item>
+<resources>
+    <style name="Base.V21.Theme.WeatherApp" parent="Theme.AppCompat.Light.NoActionBar">
         <!--    Navigation Bar Color. -->
         <item name="android:navigationBarColor">@color/primaryBackground</item>
         <!--    Status Bar Color. -->
         <item name="android:statusBarColor">@color/primaryBackground</item>
+        <!--    Another Color. -->
+        <item name="drawableTint">@color/invertedColor</item>
+        <item name="cardBackgroundColor">@color/primaryBackground</item>
+        <!--    Switch Color. -->
+        <item name="colorControlActivated">@color/invertedColor</item>
         <!--    Text Color. -->
         <item name="android:textColor">@color/primaryTextColor</item>
         <item name="hintTextColor">@color/secondaryTextColor</item>
         <!--    Background Color. -->
         <item name="android:windowBackground">@color/primaryBackground</item>
+        <!--    NoActionBar. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Base.Theme.WeatherApp" parent="Base.V21.Theme.WeatherApp" />

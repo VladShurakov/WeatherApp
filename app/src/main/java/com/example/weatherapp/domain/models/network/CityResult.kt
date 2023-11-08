@@ -1,4 +1,4 @@
-package com.example.weatherapp.data.network.models
+package com.example.weatherapp.domain.models.network
 
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable

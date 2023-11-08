@@ -1,6 +1,6 @@
 package com.example.weatherapp.domain.repository
 
-import com.example.weatherapp.domain.models.SettingsBundle
+import com.example.weatherapp.domain.models.sharedpref.SettingsBundle
 
 interface SettingsRepository {
 
