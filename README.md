@@ -3,9 +3,9 @@
 </h1>
 
 <p align="center">
-  <img alt="GitHub" src="https://img.shields.io/github/license/VladShurakov/WeatherApp?labelColor=5C5C5C&color=%237F52FF">
-  <img alt="Static Badge" src="https://img.shields.io/badge/21%2B-%237F52FF?label=API&labelColor=5C5C5C">
-  <img alt="Static Badge" src="https://img.shields.io/badge/VladShurakov-D30000?logo=GitHub&label=GitHub&labelColor=5C5C5C&link=https%3A%2F%2Fgithub.com%2FVladShurakov">
+  <a href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="GitHub" src="https://img.shields.io/github/license/VladShurakov/WeatherApp?labelColor=111111&color=5C5C5C"></a>
+  <a href="https://android-arsenal.com/api?level=21"><img alt="Static Badge" src="https://img.shields.io/badge/21%2B-5C5C5C?label=API&labelColor=111111"></a>
+  <a href="https://github.com/VladShurakov"><img alt="Static Badge" src="https://img.shields.io/badge/GitHub-5C5C5C?label=VladShurakov&labelColor=111111"></a> 
 </p>
 
 Weather App is project on Android written in Kotlin.
