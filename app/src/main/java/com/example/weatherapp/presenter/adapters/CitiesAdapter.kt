@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.example.weatherapp.R
-import com.example.weatherapp.data.network.models.CityGeo
-import com.example.weatherapp.data.network.models.CityResult
 import com.example.weatherapp.databinding.CardCityBinding
+import com.example.weatherapp.domain.models.network.CityGeo
+import com.example.weatherapp.domain.models.network.CityResult
 import com.example.weatherapp.domain.util.NetworkResult
 import com.example.weatherapp.presenter.adapters.models.CityAdapterModel
 
@@ -18,7 +16,7 @@ import com.example.weatherapp.presenter.adapters.models.CityAdapterModel
 class CitiesAdapter(
     private val onCityListener: OnCityListener,
 ) : RecyclerView.Adapter<CitiesAdapter.CityHolder>() {
-    private var cityGeo: NetworkResult<CityGeo?> = NetworkResult.Success(CityGeo())
+    private var cityGeo: NetworkResult<CityGeo> = NetworkResult.Success(CityGeo())
 
     inner class CityHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = CardCityBinding.bind(view)
@@ -30,16 +28,9 @@ class CitiesAdapter(
         ) = with(binding) {
             tvCityName.text = cityAdapterModel.cityName
             tvCityInfo.text = cityAdapterModel.cityInfo
-            imCountry.load(cityAdapterModel.flagUrl) {
-                crossfade(true)
-                error(R.drawable.unknown)
-                transformations(CircleCropTransformation())
-                build()
-            }
             itemView.setOnClickListener {
                 onCityListener.onCityClick(NetworkResult.Success(cityResult))
             }
-
         }
     }
 
@@ -56,23 +47,19 @@ class CitiesAdapter(
     }
 
     override fun onBindViewHolder(holder: CityHolder, position: Int) {
-        ((cityGeo as NetworkResult.Success<CityGeo?>).data?.cityResults?.get(position)).apply {
-            val cityName = this?.name ?: ""
+        (cityGeo as NetworkResult.Success<CityGeo>).data.cityResults[position].apply {
+            val cityName = this.name ?: ""
             val between = when {
-                this?.admin.isNullOrBlank() || this?.country.isNullOrBlank() -> ""
+                this.admin.isNullOrBlank() || this.country.isNullOrBlank() -> ""
                 else -> ", "
             }
-            val cityInfo = (this?.admin ?: "") + between + (this?.country ?: "")
-            val countryCode = this?.countryCode?.lowercase()
-            val url = "https://raw.githubusercontent.com/hampusborgos/country-flags/main/png100px/"
-            val flagUrl =  url + "${countryCode}.png"
+            val cityInfo = (this.admin ?: "") + between + (this.country ?: "")
             holder.bind(
                 cityAdapterModel = CityAdapterModel(
                     cityName = cityName,
-                    cityInfo = cityInfo,
-                    flagUrl = flagUrl
+                    cityInfo = cityInfo
                 ),
-                cityResult = this ?: CityResult(),
+                cityResult = this,
                 onCityListener = onCityListener
             )
         }
@@ -81,16 +68,13 @@ class CitiesAdapter(
     override fun getItemCount(): Int {
         return when (cityGeo) {
             is NetworkResult.Error -> 0
-            is NetworkResult.Success -> {
-                (cityGeo as NetworkResult.Success<CityGeo?>)
-                    .data?.cityResults?.size ?: 0
-            }
+            is NetworkResult.Success -> (cityGeo as NetworkResult.Success<CityGeo>).data.cityResults.size
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateGeoCity(cityGeo: NetworkResult<CityGeo?>) {
-        this.cityGeo = cityGeo
+    fun updateGeoCity(cityGeo: NetworkResult<CityGeo>?) {
+        this.cityGeo = cityGeo ?: NetworkResult.Error(Exception())
         notifyDataSetChanged()
     }
 

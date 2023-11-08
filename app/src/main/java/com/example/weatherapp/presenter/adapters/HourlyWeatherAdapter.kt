@@ -5,23 +5,24 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
-import com.example.weatherapp.data.network.models.HourlyWeather
+import com.example.weatherapp.domain.models.network.HourlyWeather
 import com.example.weatherapp.databinding.CardHourlyWeatherBinding
 import com.example.weatherapp.domain.util.NetworkResult
 import com.example.weatherapp.domain.util.WeatherType
+import com.example.weatherapp.presenter.adapters.models.HourlyWeatherAdapterModel
+import java.lang.Exception
 
 class HourlyWeatherAdapter : RecyclerView.Adapter<HourlyWeatherAdapter.HourlyWeatherHolder>() {
-    private var hourlyWeather: NetworkResult<HourlyWeather?> = NetworkResult.Success(HourlyWeather())
+    private var hourlyWeather: NetworkResult<HourlyWeather> = NetworkResult.Success(HourlyWeather())
 
     inner class HourlyWeatherHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = CardHourlyWeatherBinding.bind(view)
-        fun bind(time: String, @DrawableRes weatherDrawable: Int, temp: String) = with(binding) {
-            tvTime.text = time
-            imWeather.setImageResource(weatherDrawable)
-            tvTemp.text = temp
+        fun bind(hourlyWeatherAdapterModel: HourlyWeatherAdapterModel) = with(binding) {
+            tvTime.text = hourlyWeatherAdapterModel.time
+            imWeather.setImageResource(hourlyWeatherAdapterModel.weatherDrawable)
+            tvTemp.text = hourlyWeatherAdapterModel.temp
         }
     }
 
@@ -38,24 +39,19 @@ class HourlyWeatherAdapter : RecyclerView.Adapter<HourlyWeatherAdapter.HourlyWea
     }
 
     override fun onBindViewHolder(holder: HourlyWeatherHolder, position: Int) {
-        (hourlyWeather as NetworkResult.Success<HourlyWeather?>).apply {
-
-            val time: String = this.data?.hourly?.time?.get(position)?.drop(11) ?: ""
-            val weatherCode = this.data?.hourly?.weatherCode?.get(position) ?: 0
-
-            val isDay = time.take(2).toInt() in 7..18 // "07:15" -> 7
-
-            val drawable = WeatherType.toWeatherType(
-                weatherCode = weatherCode,
-                isDay = isDay
-            ).drawableRes
-
-            val temp = this.data?.hourly?.temp?.get(position).toString() + "°"
-
+        (hourlyWeather as NetworkResult.Success<HourlyWeather>).data.hourly?.apply {
+            val time = this.time[position].drop(11)
+            val weatherCode = this.weatherCode[position]
+            // "07:15" -> 7
+            val isDay = time.takeWhile { it != ':' }.toInt() in 7..18
+            val drawable = WeatherType.toWeatherType(weatherCode, isDay).drawableRes
+            val temp = "${this.temp[position]}°"
             holder.bind(
-                time = time,
-                weatherDrawable = drawable,
-                temp = temp
+                HourlyWeatherAdapterModel(
+                    time = time,
+                    weatherDrawable = drawable,
+                    temp = temp
+                )
             )
         }
     }
@@ -64,15 +60,14 @@ class HourlyWeatherAdapter : RecyclerView.Adapter<HourlyWeatherAdapter.HourlyWea
         return when (hourlyWeather) {
             is NetworkResult.Error -> 0
             is NetworkResult.Success -> {
-                (hourlyWeather as NetworkResult.Success<HourlyWeather?>)
-                    .data?.hourly?.weatherCode?.size ?: 0
+                (hourlyWeather as NetworkResult.Success<HourlyWeather>).data.hourly?.weatherCode?.size ?: 0
             }
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateHourlyWeather(hourlyWeather: NetworkResult<HourlyWeather?>) {
-        this.hourlyWeather = hourlyWeather
+    fun updateHourlyWeather(hourlyWeather: NetworkResult<HourlyWeather>?) {
+        this.hourlyWeather = hourlyWeather ?: NetworkResult.Error(Exception())
         notifyDataSetChanged()
     }
 }

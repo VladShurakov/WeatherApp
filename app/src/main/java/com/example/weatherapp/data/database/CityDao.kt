@@ -13,5 +13,5 @@ interface CityDao {
     suspend fun insertCities(cityEntities: List<CityEntity>)
 
     @Query("SELECT * FROM city WHERE cityName LIKE :name  || '%'")
-    suspend fun searchCity(name: String): List<CityEntity>
+    suspend fun getCities(name: String): List<CityEntity>
 }

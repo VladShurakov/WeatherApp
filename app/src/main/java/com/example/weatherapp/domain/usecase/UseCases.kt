@@ -6,5 +6,7 @@ data class UseCases(
     val getDailyWeather: GetDailyWeather,
     val getCity: GetCity,
     val insertCities: InsertCities,
-    val getCityFromDB: GetCityFromDB
+    val getCitiesFromDB: GetCitiesFromDB,
+    val saveSettings: SaveSettings,
+    val getSettings: GetSettings
 )

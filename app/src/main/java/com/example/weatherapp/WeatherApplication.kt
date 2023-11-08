@@ -12,6 +12,7 @@ import coil.memory.MemoryCache
 import coil.request.CachePolicy
 import dagger.hilt.android.HiltAndroidApp
 
+@Suppress("DEPRECATION")
 @HiltAndroidApp
 class WeatherApplication : Application(), ImageLoaderFactory {
 

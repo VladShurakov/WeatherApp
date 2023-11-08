@@ -59,7 +59,7 @@ dependencies {
     ksp("com.google.dagger:hilt-compiler:$hiltVersion")
 
     // Fragment
-    implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 
     // LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")

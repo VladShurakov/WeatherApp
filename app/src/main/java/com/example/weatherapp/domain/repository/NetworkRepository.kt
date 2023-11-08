@@ -1,18 +1,41 @@
 package com.example.weatherapp.domain.repository
 
-import com.example.weatherapp.data.network.models.CityGeo
-import com.example.weatherapp.data.network.models.CurrentWeather
-import com.example.weatherapp.data.network.models.DailyWeather
-import com.example.weatherapp.data.network.models.HourlyWeather
+import com.example.weatherapp.domain.models.network.CityGeo
+import com.example.weatherapp.domain.models.network.CurrentWeather
+import com.example.weatherapp.domain.models.network.DailyWeather
+import com.example.weatherapp.domain.models.network.HourlyWeather
+import com.example.weatherapp.domain.models.sharedpref.PrecipitationUnit
+import com.example.weatherapp.domain.models.sharedpref.TempUnit
+import com.example.weatherapp.domain.models.sharedpref.WindSpeedUnit
 import com.example.weatherapp.domain.util.NetworkResult
 
 interface NetworkRepository {
 
-    suspend fun getCurrentWeather(latitude: Double, longitude: Double): NetworkResult<CurrentWeather>
+    suspend fun getCurrentWeather(
+        latitude: Double,
+        longitude: Double,
+        tempUnit: TempUnit,
+        windSpeedUnit: WindSpeedUnit,
+        precipitationUnit: PrecipitationUnit
+    ): NetworkResult<CurrentWeather>
 
-    suspend fun getHourlyWeather(latitude: Double, longitude: Double): NetworkResult<HourlyWeather>
+    suspend fun getHourlyWeather(
+        latitude: Double,
+        longitude: Double,
+        tempUnit: TempUnit,
+        windSpeedUnit: WindSpeedUnit,
+        precipitationUnit: PrecipitationUnit
+    ): NetworkResult<HourlyWeather>
 
-    suspend fun getDailyWeather(latitude: Double, longitude: Double): NetworkResult<DailyWeather>
+    suspend fun getDailyWeather(
+        latitude: Double,
+        longitude: Double,
+        tempUnit: TempUnit,
+        windSpeedUnit: WindSpeedUnit,
+        precipitationUnit: PrecipitationUnit
+    ): NetworkResult<DailyWeather>
 
-    suspend fun getCity(name: String): NetworkResult<CityGeo>
+    suspend fun getCities(
+        name: String
+    ): NetworkResult<CityGeo>
 }

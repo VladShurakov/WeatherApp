@@ -8,14 +8,18 @@ import com.example.weatherapp.data.network.GeoApi
 import com.example.weatherapp.data.network.WeatherApi
 import com.example.weatherapp.data.repository.DatabaseRepositoryImpl
 import com.example.weatherapp.data.repository.NetworkRepositoryImpl
+import com.example.weatherapp.data.repository.SettingsRepositoryImpl
 import com.example.weatherapp.domain.repository.DatabaseRepository
 import com.example.weatherapp.domain.repository.NetworkRepository
+import com.example.weatherapp.domain.repository.SettingsRepository
 import com.example.weatherapp.domain.usecase.GetCurrentWeather
 import com.example.weatherapp.domain.usecase.GetDailyWeather
 import com.example.weatherapp.domain.usecase.GetCity
 import com.example.weatherapp.domain.usecase.GetHourlyWeather
 import com.example.weatherapp.domain.usecase.InsertCities
-import com.example.weatherapp.domain.usecase.GetCityFromDB
+import com.example.weatherapp.domain.usecase.GetCitiesFromDB
+import com.example.weatherapp.domain.usecase.GetSettings
+import com.example.weatherapp.domain.usecase.SaveSettings
 import com.example.weatherapp.domain.usecase.UseCases
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -73,7 +77,7 @@ object AppModule {
                 var request: Request = chain.request()
                 if (WeatherApplication.hasNetwork() == false) {
                     val cacheControl = CacheControl.Builder()
-                        .maxStale(3, TimeUnit.DAYS)
+                        .maxStale(5, TimeUnit.DAYS)
                         .build()
                     request = request.newBuilder()
                         .removeHeader(HEADER_PRAGMA)
@@ -92,7 +96,7 @@ object AppModule {
             return Interceptor { chain ->
                 val response: Response = chain.proceed(chain.request())
                 val cacheControl = CacheControl.Builder()
-                    .maxAge(10, TimeUnit.MINUTES)
+                    .maxAge(20, TimeUnit.MINUTES)
                     .build()
                 response.newBuilder()
                     .removeHeader(HEADER_PRAGMA)
@@ -145,15 +149,26 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUseCases(networkRepository: NetworkRepository, databaseRepository: DatabaseRepository): UseCases {
+    fun provideSettingsRepository(@ApplicationContext context: Context): SettingsRepository {
+        return SettingsRepositoryImpl(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUseCases(
+        networkRepository: NetworkRepository,
+        databaseRepository: DatabaseRepository,
+        settingsRepository: SettingsRepository
+    ): UseCases {
         return UseCases(
             getCurrentWeather = GetCurrentWeather(networkRepository),
             getHourlyWeather = GetHourlyWeather(networkRepository),
             getDailyWeather = GetDailyWeather(networkRepository),
             getCity = GetCity(networkRepository),
             insertCities = InsertCities(databaseRepository),
-            getCityFromDB = GetCityFromDB(databaseRepository)
-
+            getCitiesFromDB = GetCitiesFromDB(databaseRepository),
+            saveSettings = SaveSettings(settingsRepository),
+            getSettings = GetSettings(settingsRepository)
         )
     }
 
