@@ -11,6 +11,20 @@
 Weather App is project on Android written in Kotlin.
 
 Feel free to make issues, forks and pull requests.
+
+## :iphone: Screenshots & Gif
+
+![screenshots](https://github.com/VladShurakov/WeatherApp/assets/117427146/823ecd27-ed93-4ab2-bf04-d2f789a8b41d)
+
+<p align="center">
+  <img src="https://github.com/VladShurakov/WeatherApp/assets/117427146/37965842-f63f-448c-887d-6f838240b0f0" width="210">
+  <img src="https://github.com/VladShurakov/WeatherApp/assets/117427146/5e634f28-22e7-495d-a75e-28fa6c07e7d0" width="210">
+  <img src="https://github.com/VladShurakov/WeatherApp/assets/117427146/76f8ff0d-a426-4c07-9433-760f132d5aa9" width="210">
+</p>
+
+## :arrow_down: Download
+
+Go to [Releases](https://github.com/VladShurakov/WeatherApp/releases) to download the latest APK or ABB.
    
 ## :clipboard: Tech Stack
 - Minimum SDK level 21(Android 5.0)
