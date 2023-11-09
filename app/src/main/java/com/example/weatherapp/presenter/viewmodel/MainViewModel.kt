@@ -72,41 +72,25 @@ class WeatherViewModel @Inject constructor(
             is MainEvent.GetCity -> {
                 if (event.name.length >= 2) {
                     viewModelScope.launch {
-                        // Get cities from database
-                        val citiesFromDb = useCases.getCitiesFromDB(event.name)
+                        // Get cities from network
+                        when (val cityGeo = useCases.getCity.invoke(event.name)) {
+                            is NetworkResult.Error -> {
+                                // Show cities from database
+                                _weatherState.value = weatherState.value?.copy(
+                                    cityGeo = useCases.getCitiesFromDB(event.name)
+                                )
+                            }
 
-                        //Database has more than 20 cities = Show from database
-                        if (citiesFromDb is NetworkResult.Success && citiesFromDb.data.cityResults.count() >= 20) {
-                            _weatherState.value = _weatherState.value?.copy(
-                                cityGeo = citiesFromDb
-                            )
-                        }
-                        // Database has less than 20 cities = Try to show from network
-                        else {
-                            // Get cities from network
-                            when (val cityGeo = useCases.getCity.invoke(event.name)) {
-                                is NetworkResult.Error -> {
-                                    // Show cities from database
-                                    _weatherState.value = weatherState.value?.copy(
-                                        cityGeo = citiesFromDb
-                                    )
-                                }
-
-                                is NetworkResult.Success -> {
-                                    // Show cities from network
-                                    _weatherState.value = weatherState.value?.copy(
-                                        cityGeo = cityGeo
-                                    )
-                                    // Insert cities to database
-                                    useCases.insertCities(cityGeo.data.cityResults)
-                                }
+                            is NetworkResult.Success -> {
+                                // Show cities from network
+                                _weatherState.value = weatherState.value?.copy(
+                                    cityGeo = cityGeo
+                                )
+                                // Insert cities to database
+                                useCases.insertCities(cityGeo.data.cityResults)
                             }
                         }
                     }
-                }else{
-                    _weatherState.value = weatherState.value?.copy(
-                        cityGeo = NetworkResult.Error(Exception())
-                    )
                 }
             }
         }
