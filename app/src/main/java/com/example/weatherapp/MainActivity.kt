@@ -15,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    // Hello
     private var binding: ActivityMainBinding? = null
     private val settingsViewModel: SettingsViewModel by viewModels()
 
