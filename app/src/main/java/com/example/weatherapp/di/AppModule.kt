@@ -3,24 +3,29 @@ package com.example.weatherapp.di
 import android.content.Context
 import androidx.room.Room
 import com.example.weatherapp.WeatherApplication
-import com.example.weatherapp.data.database.CityDatabase
-import com.example.weatherapp.data.network.GeoApi
-import com.example.weatherapp.data.network.WeatherApi
-import com.example.weatherapp.data.repository.DatabaseRepositoryImpl
-import com.example.weatherapp.data.repository.NetworkRepositoryImpl
-import com.example.weatherapp.data.repository.SettingsRepositoryImpl
-import com.example.weatherapp.domain.repository.DatabaseRepository
-import com.example.weatherapp.domain.repository.NetworkRepository
-import com.example.weatherapp.domain.repository.SettingsRepository
-import com.example.weatherapp.domain.usecase.GetCurrentWeather
-import com.example.weatherapp.domain.usecase.GetDailyWeather
-import com.example.weatherapp.domain.usecase.GetCity
-import com.example.weatherapp.domain.usecase.GetHourlyWeather
-import com.example.weatherapp.domain.usecase.InsertCities
-import com.example.weatherapp.domain.usecase.GetCitiesFromDB
-import com.example.weatherapp.domain.usecase.GetSettings
-import com.example.weatherapp.domain.usecase.SaveSettings
-import com.example.weatherapp.domain.usecase.UseCases
+import com.example.weatherapp.feature_city_search.data.data_source.CityDao
+import com.example.weatherapp.feature_city_search.data.data_source.CityDatabase
+import com.example.weatherapp.feature_city_search.data.data_source.GeoApi
+import com.example.weatherapp.feature_city_search.data.repository.DatabaseCityRepositoryImpl
+import com.example.weatherapp.feature_city_search.data.repository.NetworkCityRepositoryImpl
+import com.example.weatherapp.feature_city_search.domain.repository.DatabaseCityRepository
+import com.example.weatherapp.feature_city_search.domain.repository.NetworkCityRepository
+import com.example.weatherapp.feature_city_search.domain.use_case.CitySearchUseCases
+import com.example.weatherapp.feature_city_search.domain.use_case.GetDatabaseCities
+import com.example.weatherapp.feature_city_search.domain.use_case.GetNetworkCities
+import com.example.weatherapp.feature_city_search.domain.use_case.InsertCities
+import com.example.weatherapp.feature_settings.data.repository.SettingsRepositoryImpl
+import com.example.weatherapp.feature_settings.domain.repository.SettingsRepository
+import com.example.weatherapp.feature_settings.domain.use_case.GetSettings
+import com.example.weatherapp.feature_settings.domain.use_case.SaveSettings
+import com.example.weatherapp.feature_settings.domain.use_case.SettingsUseCases
+import com.example.weatherapp.feature_weather.data.data_sourse.WeatherApi
+import com.example.weatherapp.feature_weather.data.repository.WeatherRepositoryImpl
+import com.example.weatherapp.feature_weather.domain.repository.WeatherRepository
+import com.example.weatherapp.feature_weather.domain.use_case.GetCurrentWeather
+import com.example.weatherapp.feature_weather.domain.use_case.GetDailyWeather
+import com.example.weatherapp.feature_weather.domain.use_case.GetHourlyWeather
+import com.example.weatherapp.feature_weather.domain.use_case.WeatherUseCases
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -49,22 +54,6 @@ import javax.inject.Singleton
 object AppModule {
     private const val HEADER_CACHE_CONTROL = "Cache-Control"
     private const val HEADER_PRAGMA = "Pragma"
-
-    @Provides
-    @Singleton
-    fun provideCityDatabase(@ApplicationContext context: Context): CityDatabase {
-        return Room.databaseBuilder(
-            context = context,
-            klass = CityDatabase::class.java,
-            name = "weather-database"
-        ).build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideDatabaseRepository(cityDatabase: CityDatabase): DatabaseRepository {
-        return DatabaseRepositoryImpl(cityDao = cityDatabase.cityDao())
-    }
 
     @Provides
     @Singleton
@@ -127,10 +116,18 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideWeatherApi(okHttpClient: OkHttpClient): WeatherApi {
-        val baseurl = "https://api.open-meteo.com/v1/"
-        val retrofit = createRetrofit(okHttpClient, baseurl)
-        return retrofit.create()
+    fun provideCityDatabase(@ApplicationContext context: Context): CityDatabase {
+        return Room.databaseBuilder(
+            context = context,
+            klass = CityDatabase::class.java,
+            name = "weather-database"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabaseRepository(cityDatabase: CityDatabase): CityDao {
+        return cityDatabase.cityDao()
     }
 
     @Provides
@@ -143,8 +140,27 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNetworkRepository(weatherApi: WeatherApi, geoApi: GeoApi): NetworkRepository {
-        return NetworkRepositoryImpl(weatherApi = weatherApi, geoApi = geoApi)
+    fun provideNetworkCityRepository(geoApi: GeoApi): NetworkCityRepository {
+        return NetworkCityRepositoryImpl(geoApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabaseCityRepository(cityDao: CityDao): DatabaseCityRepository {
+        return DatabaseCityRepositoryImpl(cityDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCitySearchUseCases(
+        networkCityRepository: NetworkCityRepository,
+        databaseCityRepository: DatabaseCityRepository
+    ): CitySearchUseCases {
+        return CitySearchUseCases(
+            getDatabaseCities = GetDatabaseCities(databaseCityRepository),
+            getNetworkCities = GetNetworkCities(networkCityRepository),
+            insertCities = InsertCities(databaseCityRepository)
+        )
     }
 
     @Provides
@@ -155,20 +171,38 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUseCases(
-        networkRepository: NetworkRepository,
-        databaseRepository: DatabaseRepository,
+    fun provideSettingsUseCases(
         settingsRepository: SettingsRepository
-    ): UseCases {
-        return UseCases(
-            getCurrentWeather = GetCurrentWeather(networkRepository),
-            getHourlyWeather = GetHourlyWeather(networkRepository),
-            getDailyWeather = GetDailyWeather(networkRepository),
-            getCity = GetCity(networkRepository),
-            insertCities = InsertCities(databaseRepository),
-            getCitiesFromDB = GetCitiesFromDB(databaseRepository),
-            saveSettings = SaveSettings(settingsRepository),
-            getSettings = GetSettings(settingsRepository)
+    ): SettingsUseCases {
+        return SettingsUseCases(
+            getSettings = GetSettings(settingsRepository),
+            saveSettings = SaveSettings(settingsRepository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherApi(okHttpClient: OkHttpClient): WeatherApi {
+        val baseurl = "https://api.open-meteo.com/v1/"
+        val retrofit = createRetrofit(okHttpClient, baseurl)
+        return retrofit.create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherRepository(weatherApi: WeatherApi): WeatherRepository {
+        return WeatherRepositoryImpl(weatherApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherUseCases(
+        weatherRepository: WeatherRepository
+    ): WeatherUseCases {
+        return WeatherUseCases(
+            getCurrentWeather = GetCurrentWeather(weatherRepository),
+            getHourlyWeather = GetHourlyWeather(weatherRepository),
+            getDailyWeather = GetDailyWeather(weatherRepository)
         )
     }
 

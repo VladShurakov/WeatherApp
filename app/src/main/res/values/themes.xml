@@ -28,4 +28,9 @@
         <item name="android:textColorSecondary">@color/secondaryTextColor</item>
         <item name="android:textColorHint">@color/secondaryTextColor</item>
     </style>
+
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/secondaryBackground</item>
+        <item name="android:textColorAlertDialogListItem">@color/primaryTextColor</item>
+    </style>
 </resources>
