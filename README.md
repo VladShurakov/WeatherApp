@@ -30,7 +30,7 @@ Go to [Releases](https://github.com/VladShurakov/WeatherApp/releases) to downloa
    
 ## :clipboard: Tech Stack
 - Minimum SDK level 21(Android 5.0)
-- Programming language: 100% Kotlin based
+- Programming language: Kotlin
 - Architecture: Clean + MVI pattern
 - Network: Retrofit2 & Gson + OkHttp3(Logging-interceptor)
 - Dependency Injection: Hilt
