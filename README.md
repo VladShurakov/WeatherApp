@@ -2,36 +2,38 @@
   Weather App
 </h1>
 
+![weatherappbanner](https://github.com/VladShurakov/WeatherApp/assets/117427146/714f7b54-3420-4c63-bf00-710d2518c3c7)
+
 <p align="center">
-  <a href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="GitHub" src="https://img.shields.io/github/license/VladShurakov/WeatherApp?labelColor=111111&color=5C5C5C"></a>
-  <a href="https://android-arsenal.com/api?level=21"><img alt="Static Badge" src="https://img.shields.io/badge/21%2B-5C5C5C?label=API&labelColor=111111"></a>
-  <a href="https://github.com/VladShurakov"><img alt="Static Badge" src="https://img.shields.io/badge/GitHub-5C5C5C?label=VladShurakov&labelColor=111111"></a> 
+  <a href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="GitHub" src="https://img.shields.io/github/license/VladShurakov/WeatherApp?labelColor=5C5C5C&color=545CEB"></a>
+  <a href="https://android-arsenal.com/api?level=21"><img alt="Static Badge" src="https://img.shields.io/badge/21%2B-545CEB?label=API&labelColor=5C5C5C"></a>
+  <a href="https://github.com/VladShurakov"><img alt="Static Badge" src="https://img.shields.io/badge/GitHub-545CEB?label=VladShurakov&labelColor=5C5C5C"></a> 
 </p>
 
-Weather App is project on Android written in Kotlin.
+Weather App on Kotlin MVI Clean Architecture for Android.
 
 Feel free to make issues, forks and pull requests.
-
-## :iphone: Screenshots & Gif
-
-![screenshots](https://github.com/VladShurakov/WeatherApp/assets/117427146/823ecd27-ed93-4ab2-bf04-d2f789a8b41d)
-
-<p align="center">
-  <img src="https://github.com/VladShurakov/WeatherApp/assets/117427146/37965842-f63f-448c-887d-6f838240b0f0" width="210">
-  <img src="https://github.com/VladShurakov/WeatherApp/assets/117427146/5e634f28-22e7-495d-a75e-28fa6c07e7d0" width="210">
-  <img src="https://github.com/VladShurakov/WeatherApp/assets/117427146/76f8ff0d-a426-4c07-9433-760f132d5aa9" width="210">
-</p>
 
 ## :arrow_down: Download
 
 Go to [Releases](https://github.com/VladShurakov/WeatherApp/releases) to download the latest APK or ABB.
+
+## :iphone: Screenshot & Gif
+
+![screenshots](https://github.com/VladShurakov/WeatherApp/assets/117427146/823ecd27-ed93-4ab2-bf04-d2f789a8b41d)
+
+| Search | Weather | Settings |
+|--------|---------|----------|
+| ![Gif1](https://github.com/VladShurakov/WeatherApp/assets/117427146/8a7e52ef-a897-4aac-a1c9-264f8bf42007) | ![Gif2](https://github.com/VladShurakov/WeatherApp/assets/117427146/afe07e19-8849-41f4-87c6-803f102c583c) | ![Gif3](https://github.com/VladShurakov/WeatherApp/assets/117427146/4173c2a8-0390-44ad-97e5-0a1542385445) |
+
+</p>
    
 ## :clipboard: Tech Stack
 - Minimum SDK level 21(Android 5.0)
-- Programming language: Kotlin
-- Clean Architecture + MVVM pattern
-- Network: Retrofit + OkHttp
-- DI: Hilt
+- Programming language: 100% Kotlin based
+- Architecture: Clean + MVI pattern
+- Network: Retrofit2 & Gson + OkHttp3(Logging-interceptor)
+- Dependency Injection: Hilt
 - Async: Coroutines + LiveData
 - DataBase: Room
 
