@@ -165,21 +165,39 @@
                 android:layout_height="wrap_content"
                 android:paddingVertical="8dp"/>
 
-            <TextView
-                android:id="@+id/tv7DayForecast"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_gravity="start"
-                android:text="@string/week_forecast"
-                android:textSize="18sp"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvDailyWeather"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="8dp"
-                android:nestedScrollingEnabled="false"/>
+                android:layout_marginTop="8dp"
+                android:elevation="0dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@color/secondaryBackground"
+                app:contentPadding="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv7DayForecast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_gravity="start"
+                        android:text="@string/week_forecast"
+                        android:textSize="18sp"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvDailyWeather"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
 
         </LinearLayout>
 

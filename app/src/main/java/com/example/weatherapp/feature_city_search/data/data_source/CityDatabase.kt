@@ -6,7 +6,7 @@ import com.example.weatherapp.feature_city_search.data.data_source.model.CityEnt
 
 @Database(
     entities = [CityEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class CityDatabase : RoomDatabase() {

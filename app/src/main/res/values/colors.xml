@@ -6,7 +6,7 @@
     <color name="primaryTextColor">#292A2E</color>
     <color name="primaryBackground">#F7F7F7</color>
     <!--    Secondary Colors. -->
-    <color name="secondaryTextColor">#777777</color>
+    <color name="secondaryTextColor">#616161</color>
     <color name="secondaryBackground">#FCFCFC</color>
     <!--    Icon Color. -->
     <color name="invertedColor">#292A2E</color>

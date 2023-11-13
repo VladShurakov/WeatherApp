@@ -10,7 +10,7 @@ data class CityResult (
   @SerializedName("latitude"     ) var latitude    : Double?           = null,
   @SerializedName("longitude"    ) var longitude   : Double?           = null,
   @SerializedName("country_code" ) var countryCode : String?           = null,
-  @SerializedName("population"   ) var population  : Long?           = null,
+  @SerializedName("population"   ) var population  : Long?             = null,
   @SerializedName("country"      ) var country     : String?           = null,
   @SerializedName("admin1"       ) var admin       : String?           = null,
 )

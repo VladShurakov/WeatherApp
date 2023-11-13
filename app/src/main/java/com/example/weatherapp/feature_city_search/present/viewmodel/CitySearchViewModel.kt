@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.feature_city_search.data.data_source.model.CityEntity
 import com.example.weatherapp.feature_city_search.domain.use_case.CitySearchUseCases
 import com.example.weatherapp.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,54 +19,113 @@ class CitySearchViewModel @Inject constructor(
     private val _citySearchState = MutableLiveData(CitySearchState())
     val citySearchState: LiveData<CitySearchState> = _citySearchState
 
-    fun getCities(name: String, isTyping: Boolean = false) {
+    init {
+        getFavoriteCities()
+    }
+
+    fun getCities(cityName: String, isTyping: Boolean) {
         viewModelScope.launch {
-            // Cities from Database
-            val databaseCities = citySearchUseCases.getDatabaseCities.invoke(name)
+            // Change currentCityName
+            _citySearchState.value = citySearchState.value?.copy(currentCityName = cityName)
 
             // Change UI State to Loading
             _citySearchState.value = citySearchState.value?.copy(
                 uiState = CitySearchUIState.Loading
             )
 
-            if (name.length >= 2 && !isTyping) {
-                // Get cities from network
-                when (val cityGeo = citySearchUseCases.getNetworkCities.invoke(name)) {
-                    is NetworkResult.Error -> {
-                        // Show cities from database
-                        when (databaseCities) {
-                            is NetworkResult.Error -> {
-                                _citySearchState.value = citySearchState.value?.copy(
-                                    cities = databaseCities,
-                                    uiState = CitySearchUIState.Error
-                                )
-                            }
+            when {
+                // When "Enter location" field is empty show favorite cities
+                cityName.isEmpty() -> {
+                    getFavoriteCities()
+                }
 
-                            is NetworkResult.Success -> {
-                                _citySearchState.value = citySearchState.value?.copy(
-                                    cities = databaseCities,
-                                    uiState = CitySearchUIState.Success
-                                )
-                            }
+                // When user is typing show cities from database
+                isTyping -> {
+                    // Get cities from Database
+                    val databaseCities = citySearchUseCases.getDatabaseCities.invoke(cityName)
+
+                    // Set uiState
+                    val uiState = when {
+                        databaseCities.isEmpty() -> {
+                            CitySearchUIState.Empty
+                        }
+
+                        else -> {
+                            CitySearchUIState.Success
                         }
                     }
 
-                    is NetworkResult.Success -> {
-                        // Show cities from network
-                        _citySearchState.value = citySearchState.value?.copy(
-                            cities = cityGeo,
-                            uiState = CitySearchUIState.Success
-                        )
-                        // Insert cities to database
-                        citySearchUseCases.insertCities(cityGeo.data.cityResults)
-                    }
+                    // Show cities from database
+                    _citySearchState.value = citySearchState.value?.copy(
+                        cities = databaseCities,
+                        uiState = uiState
+                    )
                 }
-            } else {
-                _citySearchState.value = citySearchState.value?.copy(
-                    cities = databaseCities,
-                    uiState = CitySearchUIState.Success
-                )
+
+                // When use click on enter and "Enter location" field more than 1 char
+                !isTyping && cityName.length >= 2 -> {
+                    // Get cities from network
+                    val networkCities = citySearchUseCases.getNetworkCities.invoke(cityName)
+
+                    if (networkCities is NetworkResult.Success){
+                        citySearchUseCases.insertCities(
+                            networkCities.data.cityResults.map { cityResult ->
+                                CityEntity(
+                                    id = cityResult.id ?: 0,
+                                    name = cityResult.name ?: "",
+                                    latitude = cityResult.latitude ?: 0.0,
+                                    longitude = cityResult.longitude ?: 0.0,
+                                    countryCode = cityResult.countryCode ?: "",
+                                    population = cityResult.population ?: 0,
+                                    country = cityResult.country ?: "",
+                                    admin = cityResult.admin ?: ""
+                                )
+                            }
+                        )
+                    }
+
+                    // Get cities from Database
+                    val databaseCities = citySearchUseCases.getDatabaseCities.invoke(cityName)
+
+                    val uiState = when {
+                        databaseCities.isEmpty() -> {
+                            CitySearchUIState.Empty
+                        }
+
+                        else -> {
+                            CitySearchUIState.Success
+                        }
+                    }
+
+                    _citySearchState.value = citySearchState.value?.copy(
+                        cities = databaseCities,
+                        uiState = uiState
+                    )
+                }
             }
+        }
+    }
+
+    /*
+     *  Changes inFavorite parameter in CityEntity to the opposite.
+     */
+    private fun getFavoriteCities() {
+        viewModelScope.launch {
+            val favoriteCities = citySearchUseCases.getFavoriteCities.invoke()
+            _citySearchState.value = citySearchState.value?.copy(
+                cities = favoriteCities,
+                uiState = CitySearchUIState.Success
+            )
+        }
+    }
+
+    /*
+     *  Changes inFavorite parameter in CityEntity to the opposite.
+     */
+    fun changeInFavorite(cityEntity: CityEntity) {
+        viewModelScope.launch {
+            // Update inFavorite
+            citySearchUseCases.updateCity(cityEntity.copy(inFavorite = !cityEntity.inFavorite))
         }
     }
 }

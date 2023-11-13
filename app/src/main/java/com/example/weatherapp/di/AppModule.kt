@@ -12,8 +12,10 @@ import com.example.weatherapp.feature_city_search.domain.repository.DatabaseCity
 import com.example.weatherapp.feature_city_search.domain.repository.NetworkCityRepository
 import com.example.weatherapp.feature_city_search.domain.use_case.CitySearchUseCases
 import com.example.weatherapp.feature_city_search.domain.use_case.GetDatabaseCities
+import com.example.weatherapp.feature_city_search.domain.use_case.GetFavoriteCities
 import com.example.weatherapp.feature_city_search.domain.use_case.GetNetworkCities
 import com.example.weatherapp.feature_city_search.domain.use_case.InsertCities
+import com.example.weatherapp.feature_city_search.domain.use_case.UpdateCity
 import com.example.weatherapp.feature_settings.data.repository.SettingsRepositoryImpl
 import com.example.weatherapp.feature_settings.domain.repository.SettingsRepository
 import com.example.weatherapp.feature_settings.domain.use_case.GetSettings
@@ -159,7 +161,9 @@ object AppModule {
         return CitySearchUseCases(
             getDatabaseCities = GetDatabaseCities(databaseCityRepository),
             getNetworkCities = GetNetworkCities(networkCityRepository),
-            insertCities = InsertCities(databaseCityRepository)
+            getFavoriteCities = GetFavoriteCities(databaseCityRepository),
+            insertCities = InsertCities(databaseCityRepository),
+            updateCity = UpdateCity(databaseCityRepository)
         )
     }
 

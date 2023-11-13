@@ -1,6 +1,7 @@
 package com.example.weatherapp.feature_city_search.present.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.example.weatherapp.feature_city_search.domain.model.CityResult
 import com.example.weatherapp.util.NetworkResult
 import com.example.weatherapp.MainActivity
 import com.example.weatherapp.databinding.FragmentCitySearchBinding
+import com.example.weatherapp.feature_city_search.data.data_source.model.CityEntity
 import com.example.weatherapp.feature_city_search.present.adapter.CitiesAdapter
 import com.example.weatherapp.feature_city_search.present.viewmodel.CitySearchUIState
 import com.example.weatherapp.util.Screen
@@ -56,12 +58,6 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
                         tvError.visibility = View.GONE
                     }
 
-                    CitySearchUIState.Error -> {
-                        rvCities.visibility = View.GONE
-                        progressBar.visibility = View.GONE
-                        tvError.visibility = View.VISIBLE
-                    }
-
                     CitySearchUIState.Empty -> {
                         rvCities.visibility = View.GONE
                         progressBar.visibility = View.GONE
@@ -87,22 +83,19 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
                     androidx.appcompat.widget.SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(name: String): Boolean {
-                        citySearchViewModel.getCities(name = name, isTyping = false)
+                        Log.d("jkronz", "Submit")
+                        citySearchViewModel.getCities(cityName = name, isTyping = false)
                         return true
                     }
 
                     override fun onQueryTextChange(newText: String): Boolean {
-                        citySearchViewModel.getCities(name = newText, isTyping = true)
+                        Log.d("jkronz", "Change")
+                        citySearchViewModel.getCities(cityName = newText, isTyping = true)
                         return true
                     }
                 })
             }
         }
-    }
-
-    override fun onCityClick(cityResult: NetworkResult<CityResult>) {
-        weatherViewModel.getWeather(cityResult)
-        (activity as MainActivity).openScreen(Screen.Weather)
     }
 
     override fun onDestroyView() {
@@ -113,5 +106,17 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
     companion object {
         @JvmStatic
         fun newInstance() = CityFragment()
+    }
+
+    override fun onCityClick(cityResult: NetworkResult<CityResult>) {
+        weatherViewModel.getWeather(cityResult)
+        (activity as MainActivity).openScreen(Screen.Weather)
+    }
+
+    override fun onFavoriteClick(cityEntity: CityEntity) {
+        citySearchViewModel.changeInFavorite(cityEntity)
+        // Get cities with new data
+        val cityName = citySearchViewModel.citySearchState.value?.currentCityName ?: ""
+        citySearchViewModel.getCities(cityName, true)
     }
 }

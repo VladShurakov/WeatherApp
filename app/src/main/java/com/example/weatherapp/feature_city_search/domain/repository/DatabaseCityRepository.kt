@@ -1,10 +1,14 @@
 package com.example.weatherapp.feature_city_search.domain.repository
 
-import com.example.weatherapp.feature_city_search.domain.model.CityResult
+import com.example.weatherapp.feature_city_search.data.data_source.model.CityEntity
 
 interface DatabaseCityRepository {
 
-    suspend fun getCities(name: String): List<CityResult>
+    suspend fun getCities(name: String): List<CityEntity>
 
-    suspend fun insertCities(cityResults: List<CityResult>)
+    suspend fun getFavoriteCities(): List<CityEntity>
+
+    suspend fun insertCities(cityEntities: List<CityEntity>)
+
+    suspend fun updateCity(cityEntity: CityEntity)
 }
