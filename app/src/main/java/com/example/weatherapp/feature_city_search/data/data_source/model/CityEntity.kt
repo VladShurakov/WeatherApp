@@ -21,5 +21,7 @@ data class CityEntity(
     @ColumnInfo("country")
     val country: String,
     @ColumnInfo("admin")
-    val admin: String
+    val admin: String,
+    @ColumnInfo("inFavorite")
+    val inFavorite: Boolean = false
 )

@@ -7,28 +7,52 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.CardCityBinding
-import com.example.weatherapp.feature_city_search.domain.model.CityGeo
+import com.example.weatherapp.feature_city_search.data.data_source.model.CityEntity
 import com.example.weatherapp.feature_city_search.domain.model.CityResult
-import com.example.weatherapp.util.NetworkResult
 import com.example.weatherapp.feature_city_search.present.adapter.model.CityAdapterModel
+import com.example.weatherapp.util.NetworkResult
 
 class CitiesAdapter(
     private val onCityListener: OnCityListener,
 ) : RecyclerView.Adapter<CitiesAdapter.CityHolder>() {
-    private var cityGeo: NetworkResult<CityGeo> = NetworkResult.Success(CityGeo())
+    private var cityEntity = listOf<CityEntity>()
 
     inner class CityHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = CardCityBinding.bind(view)
 
         fun bind(
             cityAdapterModel: CityAdapterModel,
-            cityResult: CityResult,
+            cityEntity: CityEntity,
             onCityListener: OnCityListener
         ) = with(binding) {
             tvCityName.text = cityAdapterModel.cityName
             tvCityInfo.text = cityAdapterModel.cityInfo
+            when (cityEntity.inFavorite){
+                true -> {
+                    imFavorite.setImageResource(R.drawable.ic_star_filled)
+                }
+                false -> {
+                    imFavorite.setImageResource(R.drawable.ic_star_outfilled)
+                }
+            }
             itemView.setOnClickListener {
-                onCityListener.onCityClick(NetworkResult.Success(cityResult))
+                onCityListener.onCityClick(
+                    NetworkResult.Success(
+                        CityResult(
+                            id = cityEntity.id,
+                            name = cityEntity.name,
+                            latitude = cityEntity.latitude,
+                            longitude = cityEntity.longitude,
+                            countryCode = cityEntity.countryCode,
+                            population = cityEntity.population,
+                            country = cityEntity.country,
+                            admin = cityEntity.admin
+                        )
+                    )
+                )
+            }
+            imFavorite.setOnClickListener {
+                onCityListener.onFavoriteClick(cityEntity)
             }
         }
     }
@@ -46,38 +70,37 @@ class CitiesAdapter(
     }
 
     override fun onBindViewHolder(holder: CityHolder, position: Int) {
-        (cityGeo as NetworkResult.Success<CityGeo>).data.cityResults[position].apply {
-            val cityName = this.name ?: ""
+        cityEntity[position].apply {
+            val cityName = this.name
             val between = when {
-                this.admin.isNullOrBlank() || this.country.isNullOrBlank() -> ""
+                this.admin.isBlank() || this.country.isBlank() -> ""
                 else -> ", "
             }
-            val cityInfo = (this.admin ?: "") + between + (this.country ?: "")
+            val cityInfo = this.admin + between + this.country
             holder.bind(
                 cityAdapterModel = CityAdapterModel(
                     cityName = cityName,
                     cityInfo = cityInfo
                 ),
-                cityResult = this,
+                cityEntity = this,
                 onCityListener = onCityListener
             )
         }
     }
 
     override fun getItemCount(): Int {
-        return when (cityGeo) {
-            is NetworkResult.Error -> 0
-            is NetworkResult.Success -> (cityGeo as NetworkResult.Success<CityGeo>).data.cityResults.size
-        }
+        return cityEntity.size
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateGeoCity(cityGeo: NetworkResult<CityGeo>?) {
-        this.cityGeo = cityGeo ?: NetworkResult.Error(Exception())
+    fun updateGeoCity(cityEntity: List<CityEntity>) {
+        this.cityEntity = cityEntity
         notifyDataSetChanged()
     }
 
     interface OnCityListener {
         fun onCityClick(cityResult: NetworkResult<CityResult>)
+
+        fun onFavoriteClick(cityEntity: CityEntity)
     }
 }

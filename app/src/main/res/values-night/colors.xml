@@ -4,10 +4,10 @@
     <color name="ic_launcher_background">#565BE6</color>
     <!--    Primary Colors. -->
     <color name="primaryTextColor">#FFFFFF</color>
-    <color name="primaryBackground">#1E1F22</color>
+    <color name="primaryBackground">#171717</color>
     <!--    Secondary Colors. -->
-    <color name="secondaryTextColor">#B1B1B1</color>
-    <color name="secondaryBackground">#292A2E</color>
+    <color name="secondaryTextColor">#C7C7C7</color>
+    <color name="secondaryBackground">#131313</color>
     <!--    Icon Color. -->
-    <color name="invertedColor">#FFFFFF</color>
+    <color name="invertedColor">#E6E1E5</color>
 </resources>
