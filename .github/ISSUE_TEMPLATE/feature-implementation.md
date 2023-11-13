@@ -1,8 +1,8 @@
 ---
 name: Feature Implementation
 about: Implementation of your feature
-title: Feature name [FEATURE]
-labels: enhancement
+title: "[FEATURE] Feature name"
+labels: documentation, enhancement
 assignees: VladShurakov
 
 ---
