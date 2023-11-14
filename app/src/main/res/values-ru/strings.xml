@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Погода</string>
+    <string name="pressure">Давление</string>
+    <string name="humidity">Влажность</string>
+    <string name="wind_speed">Скорость ветра</string>
+    <string name="week_forecast">Прогноз на 7 дней</string>
+    <string name="add">Добавить</string>
+    <string name="settings">Настройки</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="back">Назад</string>
+    <string name="manage_cities">Управление городами</string>
+    <string name="temp_unit">Единица измерения температуры</string>
+    <string name="wind_speed_unit">Единица измерения скорости ветра</string>
+    <string name="precipitation_unit">Единица измерения давление</string>
+    <string name="loading">Загрузка…</string>
+    <string name="error_message">"Ошибка: "</string>
+    <string name="weather">Погодада</string>
+    <string name="cancel">Отмена</string>
+    <string name="enter_location">Введите местоположение</string>
+</resources>
