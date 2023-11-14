@@ -40,7 +40,7 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
         citySearchViewModel.citySearchState.observe(viewLifecycleOwner) { citySearchState ->
             // Adapter
             val citiesAdapter = CitiesAdapter(this).also {
-                it.updateGeoCity(citySearchState.cities)
+                it.setCityEntities(citySearchState.cities)
             }
 
             binding?.apply {

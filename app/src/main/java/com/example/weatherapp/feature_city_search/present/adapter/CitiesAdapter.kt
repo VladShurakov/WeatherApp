@@ -15,7 +15,7 @@ import com.example.weatherapp.util.NetworkResult
 class CitiesAdapter(
     private val onCityListener: OnCityListener,
 ) : RecyclerView.Adapter<CitiesAdapter.CityHolder>() {
-    private var cityEntity = listOf<CityEntity>()
+    private var cityEntities = listOf<CityEntity>()
 
     inner class CityHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = CardCityBinding.bind(view)
@@ -70,7 +70,7 @@ class CitiesAdapter(
     }
 
     override fun onBindViewHolder(holder: CityHolder, position: Int) {
-        cityEntity[position].apply {
+        cityEntities[position].apply {
             val cityName = this.name
             val between = when {
                 this.admin.isBlank() || this.country.isBlank() -> ""
@@ -89,12 +89,12 @@ class CitiesAdapter(
     }
 
     override fun getItemCount(): Int {
-        return cityEntity.size
+        return cityEntities.size
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateGeoCity(cityEntity: List<CityEntity>) {
-        this.cityEntity = cityEntity
+    fun setCityEntities(cityEntities: List<CityEntity>) {
+        this.cityEntities = cityEntities
         notifyDataSetChanged()
     }
 
