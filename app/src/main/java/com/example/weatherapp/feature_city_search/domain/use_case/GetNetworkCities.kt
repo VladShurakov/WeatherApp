@@ -4,6 +4,9 @@ import com.example.weatherapp.feature_city_search.domain.model.CityGeo
 import com.example.weatherapp.feature_city_search.domain.repository.NetworkCityRepository
 import com.example.weatherapp.util.NetworkResult
 
+/*
+ *  Get Cities from network by city name
+ */
 class GetNetworkCities(
     private val repository: NetworkCityRepository
 ) {

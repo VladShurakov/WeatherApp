@@ -9,12 +9,11 @@ import com.example.weatherapp.feature_settings.domain.model.weather_unit.TempUni
 import com.example.weatherapp.feature_settings.domain.model.weather_unit.WindSpeedUnit
 
 class SettingsRepositoryImpl(context: Context) : SettingsRepository {
-
     private val sharedPreferences = context.getSharedPreferences(
         Constants.SHARED_PREFS_NAME,
         ComponentActivity.MODE_PRIVATE
     )
-    private var defaultSettingsBundle = SettingsBundle(
+    private var settingsBundle = SettingsBundle(
         isDarkTheme = true,
         tempUnit = TempUnit.celsius,
         windSpeedUnit = WindSpeedUnit.kmh,
@@ -22,39 +21,36 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepository {
     )
 
     override fun getSettings(): SettingsBundle {
-        defaultSettingsBundle = SettingsBundle(
+        settingsBundle = SettingsBundle(
             isDarkTheme = sharedPreferences.getBoolean(
-                Constants.THEME_KEY, defaultSettingsBundle.isDarkTheme
+                Constants.THEME_KEY, settingsBundle.isDarkTheme
             ),
             tempUnit = TempUnit.valueOf(
                 sharedPreferences.getString(
-                    Constants.TEMP_UNIT_KEY, defaultSettingsBundle.tempUnit.name
-                ) ?: defaultSettingsBundle.tempUnit.name
+                    Constants.TEMP_UNIT_KEY, settingsBundle.tempUnit.name
+                ) ?: settingsBundle.tempUnit.name
             ),
             windSpeedUnit = WindSpeedUnit.valueOf(
                 sharedPreferences.getString(
-                    Constants.WIND_SPEED_UNIT_KEY, defaultSettingsBundle.windSpeedUnit.name
-                ) ?: defaultSettingsBundle.windSpeedUnit.name
+                    Constants.WIND_SPEED_UNIT_KEY, settingsBundle.windSpeedUnit.name
+                ) ?: settingsBundle.windSpeedUnit.name
             ),
             precipitationUnit = PrecipitationUnit.valueOf(
                 sharedPreferences.getString(
-                    Constants.PRECIPITATION_UNIT_KEY, defaultSettingsBundle.precipitationUnit.name
-                ) ?: defaultSettingsBundle.precipitationUnit.name
+                    Constants.PRECIPITATION_UNIT_KEY, settingsBundle.precipitationUnit.name
+                ) ?: settingsBundle.precipitationUnit.name
             )
         )
-        return defaultSettingsBundle
+        return settingsBundle
     }
 
     override fun saveSettings(settingsBundle: SettingsBundle) {
-        this.defaultSettingsBundle = settingsBundle
+        this.settingsBundle = settingsBundle
         sharedPreferences.edit().apply {
-            putBoolean(Constants.THEME_KEY, defaultSettingsBundle.isDarkTheme)
-            putString(Constants.TEMP_UNIT_KEY, defaultSettingsBundle.tempUnit.name)
-            putString(Constants.WIND_SPEED_UNIT_KEY, defaultSettingsBundle.windSpeedUnit.name)
-            putString(
-                Constants.PRECIPITATION_UNIT_KEY,
-                defaultSettingsBundle.precipitationUnit.name
-            )
+            putBoolean(Constants.THEME_KEY, settingsBundle.isDarkTheme)
+            putString(Constants.TEMP_UNIT_KEY, settingsBundle.tempUnit.name)
+            putString(Constants.WIND_SPEED_UNIT_KEY, settingsBundle.windSpeedUnit.name)
+            putString(Constants.PRECIPITATION_UNIT_KEY, settingsBundle.precipitationUnit.name)
         }.apply()
     }
 
@@ -65,5 +61,4 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepository {
         const val WIND_SPEED_UNIT_KEY = "WindSpeedUnit"
         const val PRECIPITATION_UNIT_KEY = "PrecipitationUnit"
     }
-
 }

@@ -12,10 +12,8 @@ class GetDailyWeather (
 ) {
 
     suspend operator fun invoke(
-        latitude: Double,
-        longitude: Double,
-        tempUnit: TempUnit,
-        windSpeedUnit: WindSpeedUnit,
+        latitude: Double, longitude: Double,
+        tempUnit: TempUnit, windSpeedUnit: WindSpeedUnit,
         precipitationUnit: PrecipitationUnit
     ): NetworkResult<DailyWeather> {
         return repository.getDailyWeather(

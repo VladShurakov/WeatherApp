@@ -11,6 +11,9 @@ import com.example.weatherapp.feature_weather.domain.repository.WeatherRepositor
 import com.example.weatherapp.util.NetworkResult
 import javax.inject.Inject
 
+/*
+ * Repository for getting weather by city from network
+ */
 class WeatherRepositoryImpl @Inject constructor(
     private val weatherApi: WeatherApi
 ) : WeatherRepository {

@@ -39,9 +39,6 @@ class SettingsFragment : Fragment() {
                 (activity as MainActivity?)?.openScreen(Screen.Weather)
             }
 
-            // Init Dark Theme
-            swTheme.isChecked = viewModel.settingsState.value?.isDarkTheme ?: true
-
             // Init Temp Unit
             tvTempUnit.text = context?.resources?.getStringArray(R.array.temp_units)?.get(
                 viewModel.settingsState.value?.tempUnit?.ordinal ?: 0
@@ -63,7 +60,7 @@ class SettingsFragment : Fragment() {
             swTheme.setOnCheckedChangeListener { _, isChecked ->
                 when (isChecked) {
                     true -> {
-                        // Set Light theme
+                        // Set Dark theme
                         viewModel.saveSettings(
                             viewModel.settingsState.value?.copy(isDarkTheme = true)
                                 ?: SettingsBundle()

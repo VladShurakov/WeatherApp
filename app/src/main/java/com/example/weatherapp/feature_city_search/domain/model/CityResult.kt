@@ -3,6 +3,9 @@ package com.example.weatherapp.feature_city_search.domain.model
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
+/*
+*   Model for CityGeo
+**/
 @Serializable
 data class CityResult (
   @SerializedName("id"           ) var id          : Long?             = null,

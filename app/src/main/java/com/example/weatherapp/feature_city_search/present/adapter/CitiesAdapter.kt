@@ -21,13 +21,11 @@ class CitiesAdapter(
         private val binding = CardCityBinding.bind(view)
 
         fun bind(
-            cityAdapterModel: CityAdapterModel,
-            cityEntity: CityEntity,
-            onCityListener: OnCityListener
+            cityAdapterModel: CityAdapterModel
         ) = with(binding) {
             tvCityName.text = cityAdapterModel.cityName
             tvCityInfo.text = cityAdapterModel.cityInfo
-            when (cityEntity.inFavorite){
+            when (cityAdapterModel.cityEntity.inFavorite){
                 true -> {
                     imFavorite.setImageResource(R.drawable.ic_star_filled)
                 }
@@ -39,20 +37,20 @@ class CitiesAdapter(
                 onCityListener.onCityClick(
                     NetworkResult.Success(
                         CityResult(
-                            id = cityEntity.id,
-                            name = cityEntity.name,
-                            latitude = cityEntity.latitude,
-                            longitude = cityEntity.longitude,
-                            countryCode = cityEntity.countryCode,
-                            population = cityEntity.population,
-                            country = cityEntity.country,
-                            admin = cityEntity.admin
+                            id = cityAdapterModel.cityEntity.id,
+                            name = cityAdapterModel.cityEntity.name,
+                            latitude = cityAdapterModel.cityEntity.latitude,
+                            longitude = cityAdapterModel.cityEntity.longitude,
+                            countryCode = cityAdapterModel.cityEntity.countryCode,
+                            population = cityAdapterModel.cityEntity.population,
+                            country = cityAdapterModel.cityEntity.country,
+                            admin = cityAdapterModel.cityEntity.admin
                         )
                     )
                 )
             }
             imFavorite.setOnClickListener {
-                onCityListener.onFavoriteClick(cityEntity)
+                onCityListener.onFavoriteClick(cityAdapterModel.cityEntity)
             }
         }
     }
@@ -80,10 +78,10 @@ class CitiesAdapter(
             holder.bind(
                 cityAdapterModel = CityAdapterModel(
                     cityName = cityName,
-                    cityInfo = cityInfo
-                ),
-                cityEntity = this,
-                onCityListener = onCityListener
+                    cityInfo = cityInfo,
+                    cityEntity = this,
+                    onCityListener = onCityListener
+                )
             )
         }
     }

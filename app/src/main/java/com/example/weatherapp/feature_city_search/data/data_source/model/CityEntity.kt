@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/*
+ *  Entity for CityDatabase
+ */
 @Entity(tableName = "city")
 data class CityEntity(
     @PrimaryKey

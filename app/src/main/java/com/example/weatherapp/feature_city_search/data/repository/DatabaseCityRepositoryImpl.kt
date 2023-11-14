@@ -5,6 +5,9 @@ import com.example.weatherapp.feature_city_search.data.data_source.model.CityEnt
 import com.example.weatherapp.feature_city_search.domain.repository.DatabaseCityRepository
 import javax.inject.Inject
 
+/*
+ * Repository for getting cities from database
+ */
 class DatabaseCityRepositoryImpl @Inject constructor(
     private val cityDao: CityDao
 ) : DatabaseCityRepository {

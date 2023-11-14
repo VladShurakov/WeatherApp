@@ -9,7 +9,6 @@ import com.example.weatherapp.feature_settings.domain.model.weather_unit.WindSpe
 import com.example.weatherapp.util.NetworkResult
 
 interface WeatherRepository {
-
     suspend fun getCurrentWeather(
         latitude: Double,
         longitude: Double,

@@ -12,10 +12,8 @@ class GetHourlyWeather(
 ) {
 
     suspend operator fun invoke(
-        latitude: Double,
-        longitude: Double,
-        tempUnit: TempUnit,
-        windSpeedUnit: WindSpeedUnit,
+        latitude: Double, longitude: Double,
+        tempUnit: TempUnit, windSpeedUnit: WindSpeedUnit,
         precipitationUnit: PrecipitationUnit
     ): NetworkResult<HourlyWeather> {
         return repository.getHourlyWeather(

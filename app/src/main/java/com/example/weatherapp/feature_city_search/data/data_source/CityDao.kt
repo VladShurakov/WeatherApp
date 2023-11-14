@@ -7,9 +7,11 @@ import androidx.room.Query
 import androidx.room.Update
 import com.example.weatherapp.feature_city_search.data.data_source.model.CityEntity
 
+/*
+ *  Dao for CityDatabase
+ */
 @Dao
 interface CityDao {
-
     @Query("SELECT * FROM city WHERE cityName LIKE :cityName  || '%' ORDER BY population DESC")
     suspend fun getCities(cityName: String): List<CityEntity>
 

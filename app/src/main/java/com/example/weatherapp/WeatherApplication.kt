@@ -24,7 +24,7 @@ class WeatherApplication : Application(), ImageLoaderFactory {
         }
     }
 
-    fun isNetworkConnected(): Boolean {
+    private fun isNetworkConnected(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE)
                 as ConnectivityManager?
         var result = false

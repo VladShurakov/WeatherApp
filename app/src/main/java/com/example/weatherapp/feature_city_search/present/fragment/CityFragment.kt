@@ -82,15 +82,13 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
                 // SearchView
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
                     androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(name: String): Boolean {
-                        Log.d("jkronz", "Submit")
-                        citySearchViewModel.getCities(cityName = name, isTyping = false)
+                    override fun onQueryTextSubmit(cityName: String): Boolean {
+                        citySearchViewModel.getCities(cityName = cityName, isTyping = false)
                         return true
                     }
 
-                    override fun onQueryTextChange(newText: String): Boolean {
-                        Log.d("jkronz", "Change")
-                        citySearchViewModel.getCities(cityName = newText, isTyping = true)
+                    override fun onQueryTextChange(cityName: String): Boolean {
+                        citySearchViewModel.getCities(cityName = cityName, isTyping = true)
                         return true
                     }
                 })

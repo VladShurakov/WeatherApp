@@ -107,7 +107,7 @@ class CitySearchViewModel @Inject constructor(
     }
 
     /*
-     *  Changes inFavorite parameter in CityEntity to the opposite.
+     *  Get Favorite Cities
      */
     private fun getFavoriteCities() {
         viewModelScope.launch {

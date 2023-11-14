@@ -118,18 +118,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCityDatabase(@ApplicationContext context: Context): CityDatabase {
+    fun provideCityDao(@ApplicationContext context: Context): CityDao {
         return Room.databaseBuilder(
             context = context,
             klass = CityDatabase::class.java,
             name = "weather-database"
-        ).build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideDatabaseRepository(cityDatabase: CityDatabase): CityDao {
-        return cityDatabase.cityDao()
+        )
+            .build()
+            .cityDao()
     }
 
     @Provides

@@ -12,10 +12,8 @@ class GetCurrentWeather(
 ) {
 
     suspend operator fun invoke(
-        latitude: Double,
-        longitude: Double,
-        tempUnit: TempUnit,
-        windSpeedUnit: WindSpeedUnit,
+        latitude: Double, longitude: Double,
+        tempUnit: TempUnit, windSpeedUnit: WindSpeedUnit,
         precipitationUnit: PrecipitationUnit
     ): NetworkResult<CurrentWeather> {
         return repository.getCurrentWeather(
