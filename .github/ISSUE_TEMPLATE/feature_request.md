@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
+about: Suggest an idea for WeatherApp
 title: "[FEATURE] Feature request name"
 labels: enhancement
 assignees: VladShurakov
