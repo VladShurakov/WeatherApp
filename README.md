@@ -18,13 +18,13 @@ Feel free to make issues, forks and pull requests.
 
 Go to [Releases](https://github.com/VladShurakov/WeatherApp/releases) to download the latest APK or ABB.
 
-## :iphone: Screenshot & Gif
+## :iphone: Screenshots & Gifs
 
-![screenshots](https://github.com/VladShurakov/WeatherApp/assets/117427146/823ecd27-ed93-4ab2-bf04-d2f789a8b41d)
+![screenshots](https://github.com/VladShurakov/WeatherApp/assets/117427146/7fb2c58e-1722-44db-a711-3448d77e5613)
 
-| Search | Weather | Settings |
-|--------|---------|----------|
-| ![Gif1](https://github.com/VladShurakov/WeatherApp/assets/117427146/8a7e52ef-a897-4aac-a1c9-264f8bf42007) | ![Gif2](https://github.com/VladShurakov/WeatherApp/assets/117427146/afe07e19-8849-41f4-87c6-803f102c583c) | ![Gif3](https://github.com/VladShurakov/WeatherApp/assets/117427146/4173c2a8-0390-44ad-97e5-0a1542385445) |
+| Search | Weather | Favorite Cities |
+|--------|---------|-----------------|
+| ![Gif1](https://github.com/VladShurakov/WeatherApp/assets/117427146/c0df6c5e-9862-41ad-bfe4-5e43a9f6b53b) | ![Gif2](https://github.com/VladShurakov/WeatherApp/assets/117427146/4fa70397-4061-4b97-a663-3a8c78a9e004) | ![Gif3](https://github.com/VladShurakov/WeatherApp/assets/117427146/c5836c7a-a003-42d2-a3ab-8cf58dc0e277) |
 
 </p>
    
