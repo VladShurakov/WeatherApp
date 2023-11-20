@@ -41,8 +41,7 @@ class WeatherRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getHourlyWeather(
-        latitude: Double,
-        longitude: Double,
+        latitude: Double, longitude: Double,
         tempUnit: TempUnit,
         windSpeedUnit: WindSpeedUnit,
         precipitationUnit: PrecipitationUnit

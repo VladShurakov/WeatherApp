@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="12dp"
     tools:context=".feature_weather.presenter.fragment.WeatherFragment">
 
     <TextView
@@ -13,8 +14,8 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:visibility="gone"
-        android:text="@string/loading"
-        android:textSize="21sp"
+        android:text="@string/searching"
+        android:textSize="16sp"
         android:textColor="@color/primaryTextColor"/>
 
     <androidx.core.widget.NestedScrollView
@@ -25,20 +26,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp">
 
                 <ImageButton
                     android:id="@+id/ibAdd"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_marginStart="4dp"
-                    android:backgroundTint="@android:color/transparent"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/add"
                     android:src="@drawable/ic_add" />
 
@@ -56,8 +56,7 @@
                     android:id="@+id/ibSettings"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_marginEnd="4dp"
-                    android:backgroundTint="@android:color/transparent"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/settings"
                     android:src="@drawable/ic_settings" />
 
@@ -78,49 +77,54 @@
                     android:textSize="16sp"
                     tools:text="2024-01-01 01:01" />
 
-                <ImageView
-                    android:id="@+id/imWeather"
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="128dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="12dp"
-                    android:contentDescription="@string/weather"
-                    tools:ignore="ImageContrastCheck"
-                    tools:src="@drawable/ic_cloudy" />
+                    android:layout_height="192dp"
+                    android:layout_gravity="center">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal"
-                    android:translationY="-32dp">
+                    <ImageView
+                        android:id="@+id/imWeather"
+                        android:layout_width="164dp"
+                        android:layout_height="164dp"
+                        android:layout_gravity="top|center"
+                        android:contentDescription="@string/weather"
+                        tools:ignore="ImageContrastCheck"
+                        tools:src="@drawable/ic_clear_sun" />
 
-                    <TextView
-                        android:id="@+id/tvTemp"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="48sp"
-                        tools:text="10" />
+                        android:layout_gravity="bottom|center">
 
-                    <TextView
-                        android:id="@+id/tvTempUnit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="top"
-                        android:textSize="21sp"
-                        tools:text="°C" />
+                        <TextView
+                            android:id="@+id/tvTemp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="64sp"
+                            tools:text="10" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvTempUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="top"
+                            android:textSize="48sp"
+                            tools:text="°C" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/tvWeather"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingVertical="4dp"
                     android:layout_gravity="center"
                     android:textSize="16sp"
-                    android:translationY="-28dp"
+                    android:textColor="@color/secondaryTextColor"
                     tools:text="Overcast" />
 
                 <LinearLayout
@@ -130,29 +134,28 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="4dp"
-                    android:paddingVertical="8dp">
+                    android:paddingVertical="16dp">
 
                     <TextView
                         android:id="@+id/tvHumidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/humidity"
-                        android:drawablePadding="8dp"
+                        android:drawablePadding="4dp"
                         android:textAlignment="textStart"
                         android:textSize="16sp"
-                        app:drawableStartCompat="@drawable/ic_humidity"
+                        app:drawableLeftCompat="@drawable/ic_humidity"
                         tools:text="80%" />
 
                     <TextView
                         android:id="@+id/tvWindSpeed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="18dp"
+                        android:layout_marginHorizontal="12dp"
                         android:contentDescription="@string/wind_speed"
-                        android:drawablePadding="8dp"
+                        android:drawablePadding="4dp"
                         android:textSize="16sp"
-                        app:drawableStartCompat="@drawable/ic_wind"
+                        app:drawableLeftCompat="@drawable/ic_wind"
                         tools:text="3.0m/s" />
 
                     <TextView
@@ -160,51 +163,49 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/pressure"
-                        android:drawablePadding="8dp"
+                        android:drawablePadding="4dp"
                         android:textSize="16sp"
-                        app:drawableStartCompat="@drawable/ic_pressure"
+                        app:drawableLeftCompat="@drawable/ic_pressure"
                         tools:text="0.0inch" />
 
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="4dp"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="12dp"
+                    android:text="@string/hourly_forecast"
+                    android:textSize="18sp" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvHourlyWeather"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="8dp" />
+                    android:layout_height="wrap_content" />
 
-                <androidx.cardview.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:elevation="0dp"
-                    app:cardBackgroundColor="@color/secondaryBackground"
-                    app:cardCornerRadius="8dp"
-                    app:contentPadding="8dp">
+                    app:contentPadding="8dp"
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="4dp"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/week_forecast"
+                        android:textSize="18sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvDailyWeather"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:nestedScrollingEnabled="false" />
 
-                        <TextView
-                            android:id="@+id/tv7DayForecast"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:layout_marginStart="4dp"
-                            android:text="@string/week_forecast"
-                            android:textSize="18sp" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rvDailyWeather"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:nestedScrollingEnabled="false" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
+                </LinearLayout>
 
 
             </LinearLayout>

@@ -20,9 +20,7 @@ class CitiesAdapter(
     inner class CityHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = CardCityBinding.bind(view)
 
-        fun bind(
-            cityAdapterModel: CityAdapterModel
-        ) = with(binding) {
+        fun bind(cityAdapterModel: CityAdapterModel) = with(binding) {
             tvCityName.text = cityAdapterModel.cityName
             tvCityInfo.text = cityAdapterModel.cityInfo
             when (cityAdapterModel.cityEntity.inFavorite){
@@ -34,20 +32,7 @@ class CitiesAdapter(
                 }
             }
             itemView.setOnClickListener {
-                onCityListener.onCityClick(
-                    NetworkResult.Success(
-                        CityResult(
-                            id = cityAdapterModel.cityEntity.id,
-                            name = cityAdapterModel.cityEntity.name,
-                            latitude = cityAdapterModel.cityEntity.latitude,
-                            longitude = cityAdapterModel.cityEntity.longitude,
-                            countryCode = cityAdapterModel.cityEntity.countryCode,
-                            population = cityAdapterModel.cityEntity.population,
-                            country = cityAdapterModel.cityEntity.country,
-                            admin = cityAdapterModel.cityEntity.admin
-                        )
-                    )
-                )
+                onCityListener.onCityClick(cityAdapterModel.cityResult)
             }
             imFavorite.setOnClickListener {
                 onCityListener.onFavoriteClick(cityAdapterModel.cityEntity)
@@ -80,7 +65,19 @@ class CitiesAdapter(
                     cityName = cityName,
                     cityInfo = cityInfo,
                     cityEntity = this,
-                    onCityListener = onCityListener
+                    onCityListener = onCityListener,
+                    cityResult = NetworkResult.Success(
+                        CityResult(
+                            id = this.id,
+                            name = this.name,
+                            latitude = this.latitude,
+                            longitude = this.longitude,
+                            countryCode = this.countryCode,
+                            population = this.population,
+                            country = this.country,
+                            admin = this.admin
+                        )
+                    )
                 )
             )
         }
