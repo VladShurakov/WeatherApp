@@ -1,7 +1,6 @@
 package com.example.weatherapp.feature_city_search.present.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +8,17 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.weatherapp.feature_city_search.domain.model.CityResult
-import com.example.weatherapp.util.NetworkResult
 import com.example.weatherapp.MainActivity
+import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentCitySearchBinding
 import com.example.weatherapp.feature_city_search.data.data_source.model.CityEntity
+import com.example.weatherapp.feature_city_search.domain.model.CityResult
 import com.example.weatherapp.feature_city_search.present.adapter.CitiesAdapter
 import com.example.weatherapp.feature_city_search.present.viewmodel.CitySearchUIState
-import com.example.weatherapp.util.Screen
 import com.example.weatherapp.feature_city_search.present.viewmodel.CitySearchViewModel
 import com.example.weatherapp.feature_weather.presenter.viewmodel.WeatherViewModel
+import com.example.weatherapp.util.NetworkResult
+import com.example.weatherapp.util.Screen
 
 class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
     private var binding: FragmentCitySearchBinding? = null
@@ -30,6 +30,7 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        citySearchViewModel.getCities("", true)
         binding = FragmentCitySearchBinding.inflate(inflater, container, false)
         return binding?.root
     }
@@ -48,20 +49,25 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
                 when (citySearchState.uiState) {
                     CitySearchUIState.Success -> {
                         rvCities.visibility = View.VISIBLE
-                        progressBar.visibility = View.GONE
-                        tvError.visibility = View.GONE
+                        tvInfo.visibility = View.GONE
                     }
 
                     CitySearchUIState.Loading -> {
                         rvCities.visibility = View.GONE
-                        progressBar.visibility = View.VISIBLE
-                        tvError.visibility = View.GONE
+                        tvInfo.visibility = View.VISIBLE
+                        tvInfo.text = getString(R.string.searching)
+                    }
+
+                    CitySearchUIState.NoNetworkConnection -> {
+                        rvCities.visibility = View.GONE
+                        tvInfo.visibility = View.VISIBLE
+                        tvInfo.text = getString(R.string.no_network_connection)
                     }
 
                     CitySearchUIState.Empty -> {
                         rvCities.visibility = View.GONE
-                        progressBar.visibility = View.GONE
-                        tvError.visibility = View.GONE
+                        tvInfo.visibility = View.VISIBLE
+                        tvInfo.text = getString(R.string.no_results)
                     }
                 }
 
@@ -83,12 +89,12 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
                     androidx.appcompat.widget.SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(cityName: String): Boolean {
-                        citySearchViewModel.getCities(cityName = cityName, isTyping = false)
+                        citySearchViewModel.getCities(newCityName = cityName, isTyping = false)
                         return true
                     }
 
                     override fun onQueryTextChange(cityName: String): Boolean {
-                        citySearchViewModel.getCities(cityName = cityName, isTyping = true)
+                        citySearchViewModel.getCities(newCityName = cityName, isTyping = true)
                         return true
                     }
                 })

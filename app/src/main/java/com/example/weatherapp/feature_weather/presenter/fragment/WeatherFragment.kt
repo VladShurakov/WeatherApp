@@ -74,9 +74,7 @@ class WeatherFragment : Fragment() {
                         llWeather.visibility = View.GONE
                         tvInfo.visibility = View.VISIBLE
                         tvCityName.visibility = View.INVISIBLE
-                        if (weatherState.weather.currentWeather is NetworkResult.Error) {
-                            tvInfo.text = getString(R.string.loading)
-                        }
+                        tvInfo.text = getString(R.string.searching)
                     }
 
                     WeatherUiState.Empty -> {
@@ -85,8 +83,6 @@ class WeatherFragment : Fragment() {
                         tvCityName.visibility = View.INVISIBLE
                     }
                 }
-
-
 
                 if (weatherState.weather.currentWeather is NetworkResult.Success) {
                     // Units
@@ -124,35 +120,35 @@ class WeatherFragment : Fragment() {
                     val humidityText = "$humidity$humidityUnit"
                     val windSpeedText = "$speedText$windSpeedUnit"
 
-                    binding?.apply {
-                        // Set text & image
-                        tvDate.text = dateText
-                        tvCityName.text = cityText
-                        imWeather.setImageResource(weatherImage)
-                        tvTemp.text = temp
-                        tvTempUnit.text = tempUnit
-                        tvWeather.text = weatherDesc
-                        tvPrecipitation.text = precipitationText
-                        tvHumidity.text = humidityText
-                        tvWindSpeed.text = windSpeedText
+                    // Set text & image
+                    tvDate.text = dateText
+                    tvCityName.text = cityText
+                    imWeather.setImageResource(weatherImage)
+                    tvTemp.text = temp
+                    tvTempUnit.text = tempUnit
+                    tvWeather.text = weatherDesc
+                    tvPrecipitation.text = precipitationText
+                    tvHumidity.text = humidityText
+                    tvWindSpeed.text = windSpeedText
 
-                        // Recycler View
-                        rvHourlyWeather.apply {
-                            layoutManager = LinearLayoutManager(
-                                context.applicationContext,
-                                LinearLayoutManager.HORIZONTAL,
-                                false
-                            )
-                            adapter = hourlyAdapter
-                        }
-                        rvDailyWeather.apply {
-                            layoutManager = LinearLayoutManager(
-                                context.applicationContext,
-                                LinearLayoutManager.VERTICAL,
-                                false
-                            )
-                            adapter = dailyAdapter
-                        }
+                    // Hourly Recycler View
+                    rvHourlyWeather.apply {
+                        layoutManager = LinearLayoutManager(
+                            context.applicationContext,
+                            LinearLayoutManager.HORIZONTAL,
+                            false
+                        )
+                        adapter = hourlyAdapter
+                    }
+
+                    // Daily Recycler View
+                    rvDailyWeather.apply {
+                        layoutManager = LinearLayoutManager(
+                            context.applicationContext,
+                            LinearLayoutManager.VERTICAL,
+                            false
+                        )
+                        adapter = dailyAdapter
                     }
                 }
             }

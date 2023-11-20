@@ -40,21 +40,19 @@ class SettingsFragment : Fragment() {
             }
 
             // Init Temp Unit
-            tvTempUnit.text = context?.resources?.getStringArray(R.array.temp_units)?.get(
-                viewModel.settingsState.value?.tempUnit?.ordinal ?: 0
-            )
+            tvTempUnit.text =
+                resources.getStringArray(R.array.temp_units)[viewModel.settingsState.value?.tempUnit?.ordinal
+                    ?: 0]
 
             // Init Wind Speed Unit
             tvWindSpeedUnit.text =
-                context?.resources?.getStringArray(R.array.wind_speed_units)?.get(
-                    viewModel.settingsState.value?.windSpeedUnit?.ordinal ?: 0
-                )
+                resources.getStringArray(R.array.wind_speed_units)[viewModel.settingsState.value?.windSpeedUnit?.ordinal
+                    ?: 0]
 
             // Init Precipitation Unit
             tvPrecipitationUnit.text =
-                context?.resources?.getStringArray(R.array.precipitation_units)?.get(
-                    viewModel.settingsState.value?.precipitationUnit?.ordinal ?: 0
-                )
+                resources.getStringArray(R.array.precipitation_units)[viewModel.settingsState.value?.precipitationUnit?.ordinal
+                    ?: 0]
 
             // Switch theme click listener
             swTheme.setOnCheckedChangeListener { _, isChecked ->

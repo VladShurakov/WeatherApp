@@ -152,11 +152,12 @@ object AppModule {
     @Singleton
     fun provideCitySearchUseCases(
         networkCityRepository: NetworkCityRepository,
-        databaseCityRepository: DatabaseCityRepository
+        databaseCityRepository: DatabaseCityRepository,
+        @ApplicationContext context: Context
     ): CitySearchUseCases {
         return CitySearchUseCases(
             getDatabaseCities = GetDatabaseCities(databaseCityRepository),
-            getNetworkCities = GetNetworkCities(networkCityRepository),
+            getNetworkCities = GetNetworkCities(networkCityRepository, context),
             getFavoriteCities = GetFavoriteCities(databaseCityRepository),
             insertCities = InsertCities(databaseCityRepository),
             updateCity = UpdateCity(databaseCityRepository)

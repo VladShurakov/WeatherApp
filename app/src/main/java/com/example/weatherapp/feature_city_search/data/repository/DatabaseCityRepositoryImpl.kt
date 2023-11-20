@@ -12,8 +12,8 @@ class DatabaseCityRepositoryImpl @Inject constructor(
     private val cityDao: CityDao
 ) : DatabaseCityRepository {
 
-    override suspend fun getCities(name: String): List<CityEntity> {
-        return cityDao.getCities(name)
+    override suspend fun getCities(cityName: String): List<CityEntity> {
+        return cityDao.getCities(cityName)
     }
 
     override suspend fun getFavoriteCities(): List<CityEntity> {

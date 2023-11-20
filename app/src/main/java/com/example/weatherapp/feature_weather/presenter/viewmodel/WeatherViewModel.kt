@@ -21,66 +21,68 @@ class WeatherViewModel @Inject constructor(
     private val _weatherState = MutableLiveData(WeatherState())
     val weatherState: LiveData<WeatherState> = _weatherState
 
-    fun getWeather(cityResult: NetworkResult<CityResult>) {
-        viewModelScope.launch {
-            _weatherState.value = _weatherState.value?.copy(
-                weather = weatherState.value?.weather?.copy(
-                    cityResult = cityResult
-                ) ?: Weather(),
-                uiState = WeatherUiState.Loading
-            )
+    fun getWeather(cityResult: NetworkResult<CityResult>) = viewModelScope.launch {
+        val uiState = when (weatherState.value?.weather?.cityResult) {
+            // cityResult(city) same
+            cityResult -> WeatherUiState.Success
+            // cityResult(city) new
+            else -> WeatherUiState.Loading
+        }
+        // Init uiState
+        _weatherState.value = _weatherState.value?.copy(
+            uiState = uiState
+        )
 
-            when (cityResult) {
-                is NetworkResult.Success -> {
-                    val latitude = cityResult.data.latitude ?: 60.0
-                    val longitude = cityResult.data.longitude ?: 60.0
-                    val settings = settingsUseCases.getSettings.invoke()
-                    val tempUnit = settings.tempUnit
-                    val windSpeedUnit = settings.windSpeedUnit
-                    val precipitationUnit = settings.precipitationUnit
+        when (cityResult) {
+            is NetworkResult.Success -> {
+                val latitude = cityResult.data.latitude ?: 60.0
+                val longitude = cityResult.data.longitude ?: 60.0
+                val settings = settingsUseCases.getSettings.invoke()
+                val tempUnit = settings.tempUnit
+                val windSpeedUnit = settings.windSpeedUnit
+                val precipitationUnit = settings.precipitationUnit
 
-                    val currentWeather = weatherUseCases.getCurrentWeather.invoke(
-                        latitude, longitude,
-                        tempUnit, windSpeedUnit, precipitationUnit
-                    )
-                    val hourlyWeather = weatherUseCases.getHourlyWeather.invoke(
-                        latitude, longitude,
-                        tempUnit, windSpeedUnit, precipitationUnit
-                    )
-                    val dailyWeather = weatherUseCases.getDailyWeather.invoke(
-                        latitude, longitude,
-                        tempUnit, windSpeedUnit, precipitationUnit
-                    )
+                val currentWeather = weatherUseCases.getCurrentWeather.invoke(
+                    latitude, longitude,
+                    tempUnit, windSpeedUnit, precipitationUnit
+                )
+                val hourlyWeather = weatherUseCases.getHourlyWeather.invoke(
+                    latitude, longitude,
+                    tempUnit, windSpeedUnit, precipitationUnit
+                )
+                val dailyWeather = weatherUseCases.getDailyWeather.invoke(
+                    latitude, longitude,
+                    tempUnit, windSpeedUnit, precipitationUnit
+                )
 
-                    _weatherState.value = WeatherState(
-                        weather = Weather(
-                            currentWeather,
-                            hourlyWeather,
-                            dailyWeather,
-                            cityResult
+                _weatherState.value = WeatherState(
+                    weather = Weather(
+                        currentWeather,
+                        hourlyWeather,
+                        dailyWeather,
+                        cityResult
+                    )
+                )
+
+                when (currentWeather) {
+                    is NetworkResult.Success -> {
+                        _weatherState.value = weatherState.value?.copy(
+                            uiState = WeatherUiState.Success
                         )
-                    )
+                    }
 
-                    when (currentWeather) {
-                        is NetworkResult.Success -> {
-                            _weatherState.value = weatherState.value?.copy(
-                                uiState = WeatherUiState.Success
-                            )
-                        }
-
-                        is NetworkResult.Error -> {
-                            _weatherState.value = weatherState.value?.copy(
-                                uiState = WeatherUiState.Error
-                            )
-                        }
+                    is NetworkResult.Error -> {
+                        _weatherState.value = weatherState.value?.copy(
+                            uiState = WeatherUiState.Error
+                        )
                     }
                 }
+            }
 
-                is NetworkResult.Error -> {
-                    _weatherState.value = weatherState.value?.copy(
-                        uiState = WeatherUiState.Error
-                    )
-                }
+            is NetworkResult.Error -> {
+                _weatherState.value = weatherState.value?.copy(
+                    uiState = WeatherUiState.Error
+                )
             }
         }
     }
