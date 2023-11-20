@@ -37,6 +37,9 @@ Go to [Releases](https://github.com/VladShurakov/WeatherApp/releases) to downloa
 - Async: Coroutines + LiveData
 - DataBase: Room
 
+## Contribute
+**Want to contribute?** See **[CONTRIBUTING.md](/CONTRIBUTING.md)**
+
 ## :page_facing_up: License
 
 ```
