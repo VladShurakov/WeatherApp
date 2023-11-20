@@ -40,6 +40,12 @@ Go to [Releases](https://github.com/VladShurakov/WeatherApp/releases) to downloa
 ## Contribute
 **Want to contribute?** See **[CONTRIBUTING.md](/CONTRIBUTING.md)**
 
+## Contributors Wall
+
+<a href="https://github.com/VladShurakov/WeatherApp/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=VladShurakov/WeatherApp" />
+</a>
+
 ## :page_facing_up: License
 
 ```
