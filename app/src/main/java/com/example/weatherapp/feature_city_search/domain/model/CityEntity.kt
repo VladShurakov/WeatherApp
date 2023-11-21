@@ -1,4 +1,4 @@
-package com.example.weatherapp.feature_city_search.data.data_source.model
+package com.example.weatherapp.feature_city_search.domain.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

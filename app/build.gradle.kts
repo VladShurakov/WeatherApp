@@ -15,7 +15,7 @@ android {
         minSdk = 21
         targetSdk = 34
         versionCode = 1
-        versionName = "1.2.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -45,9 +45,6 @@ dependencies {
     val hiltVersion = "2.48.1"
     val retrofitVersion = "2.9.0"
     val roomVersion = "2.6.0"
-
-    // Coil
-    implementation("io.coil-kt:coil:2.5.0")
 
     // Room
     implementation("androidx.room:room-runtime:$roomVersion")

@@ -1,4 +1,4 @@
-package com.example.weatherapp.util
+package com.example.weatherapp.core
 
 import androidx.annotation.DrawableRes
 import com.example.weatherapp.R

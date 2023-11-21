@@ -10,7 +10,7 @@ import com.example.weatherapp.feature_city_search.present.fragment.CityFragment
 import com.example.weatherapp.feature_settings.presenter.fragment.SettingsFragment
 import com.example.weatherapp.feature_settings.presenter.viewmodel.SettingsViewModel
 import com.example.weatherapp.feature_weather.presenter.fragment.WeatherFragment
-import com.example.weatherapp.util.Screen
+import com.example.weatherapp.core.Screen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.WeatherApplication
-import com.example.weatherapp.feature_city_search.data.data_source.model.CityEntity
+import com.example.weatherapp.feature_city_search.domain.model.CityEntity
 import com.example.weatherapp.feature_city_search.domain.use_case.CitySearchUseCases
-import com.example.weatherapp.util.NetworkResult
+import com.example.weatherapp.feature_city_search.present.viewmodel.model.CitySearchState
+import com.example.weatherapp.feature_city_search.present.viewmodel.model.CitySearchUIState
+import com.example.weatherapp.core.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -113,23 +115,19 @@ class CitySearchViewModel @Inject constructor(
     /*
      *  Get Favorite Cities
      */
-    private fun getFavoriteCities() {
-        viewModelScope.launch {
-            val favoriteCities = citySearchUseCases.getFavoriteCities.invoke()
-            _citySearchState.value = citySearchState.value?.copy(
-                cities = favoriteCities,
-                uiState = CitySearchUIState.Success
-            )
-        }
+    private fun getFavoriteCities() = viewModelScope.launch {
+        val favoriteCities = citySearchUseCases.getFavoriteCities.invoke()
+        _citySearchState.value = citySearchState.value?.copy(
+            cities = favoriteCities,
+            uiState = CitySearchUIState.Success
+        )
     }
 
     /*
      *  Changes inFavorite parameter in CityEntity to the opposite.
      */
-    fun changeInFavorite(cityEntity: CityEntity) {
-        viewModelScope.launch {
-            // Update inFavorite
-            citySearchUseCases.updateCity(cityEntity.copy(inFavorite = !cityEntity.inFavorite))
-        }
+    fun toggleFavorite(cityEntity: CityEntity) = viewModelScope.launch {
+        // Update inFavorite
+        citySearchUseCases.updateCity(cityEntity.copy(inFavorite = !cityEntity.inFavorite))
     }
 }

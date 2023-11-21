@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.MainActivity
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentCitySearchBinding
-import com.example.weatherapp.feature_city_search.data.data_source.model.CityEntity
+import com.example.weatherapp.feature_city_search.domain.model.CityEntity
 import com.example.weatherapp.feature_city_search.domain.model.CityResult
 import com.example.weatherapp.feature_city_search.present.adapter.CitiesAdapter
-import com.example.weatherapp.feature_city_search.present.viewmodel.CitySearchUIState
+import com.example.weatherapp.feature_city_search.present.viewmodel.model.CitySearchUIState
 import com.example.weatherapp.feature_city_search.present.viewmodel.CitySearchViewModel
 import com.example.weatherapp.feature_weather.presenter.viewmodel.WeatherViewModel
-import com.example.weatherapp.util.NetworkResult
-import com.example.weatherapp.util.Screen
+import com.example.weatherapp.core.NetworkResult
+import com.example.weatherapp.core.Screen
 
 class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
     private var binding: FragmentCitySearchBinding? = null
@@ -118,7 +118,7 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
     }
 
     override fun onFavoriteClick(cityEntity: CityEntity) {
-        citySearchViewModel.changeInFavorite(cityEntity)
+        citySearchViewModel.toggleFavorite(cityEntity)
         // Get cities with new data
         val cityName = citySearchViewModel.citySearchState.value?.currentCityName ?: ""
         citySearchViewModel.getCities(cityName, true)

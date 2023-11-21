@@ -5,16 +5,11 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import coil.ImageLoader
-import coil.ImageLoaderFactory
-import coil.disk.DiskCache
-import coil.memory.MemoryCache
-import coil.request.CachePolicy
 import dagger.hilt.android.HiltAndroidApp
 
 @Suppress("DEPRECATION")
 @HiltAndroidApp
-class WeatherApplication : Application(), ImageLoaderFactory {
+class WeatherApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -60,26 +55,6 @@ class WeatherApplication : Application(), ImageLoaderFactory {
             }
         }
         return result
-    }
-
-    // Coil Settings
-    override fun newImageLoader(): ImageLoader {
-        return ImageLoader(this).newBuilder()
-            .memoryCachePolicy(CachePolicy.ENABLED)
-            .memoryCache {
-                MemoryCache.Builder(this)
-                    .maxSizePercent(0.1)
-                    .strongReferencesEnabled(true)
-                    .build()
-            }
-            .diskCachePolicy(CachePolicy.ENABLED)
-            .diskCache {
-                DiskCache.Builder()
-                    .directory(cacheDir)
-                    .maxSizePercent(0.01)
-                    .build()
-            }
-            .build()
     }
 
     companion object {

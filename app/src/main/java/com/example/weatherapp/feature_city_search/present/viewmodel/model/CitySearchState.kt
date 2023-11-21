@@ -1,6 +1,6 @@
-package com.example.weatherapp.feature_city_search.present.viewmodel
+package com.example.weatherapp.feature_city_search.present.viewmodel.model
 
-import com.example.weatherapp.feature_city_search.data.data_source.model.CityEntity
+import com.example.weatherapp.feature_city_search.domain.model.CityEntity
 
 data class CitySearchState(
     val cities: List<CityEntity> = listOf(),

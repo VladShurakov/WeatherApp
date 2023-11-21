@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.CardCityBinding
-import com.example.weatherapp.feature_city_search.data.data_source.model.CityEntity
+import com.example.weatherapp.feature_city_search.domain.model.CityEntity
 import com.example.weatherapp.feature_city_search.domain.model.CityResult
 import com.example.weatherapp.feature_city_search.present.adapter.model.CityAdapterModel
-import com.example.weatherapp.util.NetworkResult
+import com.example.weatherapp.core.NetworkResult
 
 class CitiesAdapter(
     private val onCityListener: OnCityListener,
@@ -61,7 +61,7 @@ class CitiesAdapter(
             }
             val cityInfo = this.admin + between + this.country
             holder.bind(
-                cityAdapterModel = CityAdapterModel(
+                CityAdapterModel(
                     cityName = cityName,
                     cityInfo = cityInfo,
                     cityEntity = this,

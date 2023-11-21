@@ -43,7 +43,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
@@ -97,20 +96,12 @@ object AppModule {
             }
         }
 
-        /*
-         *   Get data when offline OR online (For logging)
-         */
-        val httpLoginInterceptor = HttpLoggingInterceptor().apply {
-            HttpLoggingInterceptor.Level.BODY
-        }
-
         // Creating cache
         val cacheMaxSize: Long = 5 * 1024 * 1024  // 5 MiB
         val cache = Cache(File(context.cacheDir, "weather-cache"), cacheMaxSize)
 
         return OkHttpClient.Builder()
             .cache(cache)
-            .addInterceptor(httpLoginInterceptor)
             .addInterceptor(networkInterceptor())
             .addInterceptor(offlineInterceptor())
             .build()

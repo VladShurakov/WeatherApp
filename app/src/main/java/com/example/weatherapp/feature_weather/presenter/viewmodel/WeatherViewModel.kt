@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.feature_city_search.domain.model.CityResult
 import com.example.weatherapp.feature_settings.domain.use_case.SettingsUseCases
 import com.example.weatherapp.feature_weather.domain.use_case.WeatherUseCases
-import com.example.weatherapp.util.NetworkResult
+import com.example.weatherapp.core.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,7 +22,7 @@ class WeatherViewModel @Inject constructor(
     val weatherState: LiveData<WeatherState> = _weatherState
 
     fun getWeather(cityResult: NetworkResult<CityResult>) = viewModelScope.launch {
-        val uiState = when (weatherState.value?.weather?.cityResult) {
+        val uiState = when (weatherState.value?.cityResult) {
             // cityResult(city) same
             cityResult -> WeatherUiState.Success
             // cityResult(city) new
@@ -56,12 +56,10 @@ class WeatherViewModel @Inject constructor(
                 )
 
                 _weatherState.value = WeatherState(
-                    weather = Weather(
-                        currentWeather,
-                        hourlyWeather,
-                        dailyWeather,
-                        cityResult
-                    )
+                    currentWeather,
+                    hourlyWeather,
+                    dailyWeather,
+                    cityResult
                 )
 
                 when (currentWeather) {

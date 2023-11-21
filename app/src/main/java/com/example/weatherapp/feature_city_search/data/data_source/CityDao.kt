@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.weatherapp.feature_city_search.data.data_source.model.CityEntity
+import com.example.weatherapp.feature_city_search.domain.model.CityEntity
 
 /*
  *  Dao for CityDatabase

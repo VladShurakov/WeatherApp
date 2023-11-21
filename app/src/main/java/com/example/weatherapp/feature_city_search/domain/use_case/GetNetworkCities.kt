@@ -6,7 +6,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.WeatherApplication
 import com.example.weatherapp.feature_city_search.domain.model.CityGeo
 import com.example.weatherapp.feature_city_search.domain.repository.NetworkCityRepository
-import com.example.weatherapp.util.NetworkResult
+import com.example.weatherapp.core.NetworkResult
 
 /*
  *  Get Cities from network by city name

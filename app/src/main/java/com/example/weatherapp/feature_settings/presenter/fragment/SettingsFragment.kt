@@ -15,7 +15,7 @@ import com.example.weatherapp.feature_settings.domain.model.SettingsBundle
 import com.example.weatherapp.feature_settings.domain.model.weather_unit.TempUnit
 import com.example.weatherapp.feature_settings.domain.model.weather_unit.WindSpeedUnit
 import com.example.weatherapp.MainActivity
-import com.example.weatherapp.util.Screen
+import com.example.weatherapp.core.Screen
 import com.example.weatherapp.feature_settings.presenter.viewmodel.SettingsViewModel
 
 class SettingsFragment : Fragment() {

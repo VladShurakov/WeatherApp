@@ -5,7 +5,7 @@ import com.example.weatherapp.feature_settings.domain.model.weather_unit.Precipi
 import com.example.weatherapp.feature_settings.domain.model.weather_unit.TempUnit
 import com.example.weatherapp.feature_settings.domain.model.weather_unit.WindSpeedUnit
 import com.example.weatherapp.feature_weather.domain.repository.WeatherRepository
-import com.example.weatherapp.util.NetworkResult
+import com.example.weatherapp.core.NetworkResult
 
 class GetDailyWeather (
     private val repository: WeatherRepository

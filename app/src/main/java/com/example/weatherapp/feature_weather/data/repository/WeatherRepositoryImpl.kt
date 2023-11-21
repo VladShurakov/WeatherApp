@@ -8,7 +8,7 @@ import com.example.weatherapp.feature_weather.domain.model.CurrentWeather
 import com.example.weatherapp.feature_weather.domain.model.DailyWeather
 import com.example.weatherapp.feature_weather.domain.model.HourlyWeather
 import com.example.weatherapp.feature_weather.domain.repository.WeatherRepository
-import com.example.weatherapp.util.NetworkResult
+import com.example.weatherapp.core.NetworkResult
 import javax.inject.Inject
 
 /*
