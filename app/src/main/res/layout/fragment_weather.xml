@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="12dp"
     tools:context=".feature_weather.presenter.fragment.WeatherFragment">
 
     <TextView
@@ -15,12 +14,13 @@
         android:gravity="center"
         android:visibility="gone"
         android:text="@string/searching"
-        android:textSize="16sp"
-        android:textColor="@color/primaryTextColor"/>
+        android:textSize="14sp"
+        android:textColor="@color/secondaryTextColor"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="12dp"
         android:contentDescription="@string/nestedscrollview">
 
         <LinearLayout
@@ -39,7 +39,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/add"
+                    android:contentDescription="@string/manage_cities"
                     android:src="@drawable/ic_add" />
 
                 <TextView
@@ -162,7 +162,7 @@
                         android:id="@+id/tvPrecipitation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:contentDescription="@string/pressure"
+                        android:contentDescription="@string/precipitation"
                         android:drawablePadding="4dp"
                         android:textSize="16sp"
                         app:drawableLeftCompat="@drawable/ic_pressure"

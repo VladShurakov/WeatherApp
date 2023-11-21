@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/add"
-        android:title="@string/add"
+        android:title="@string/manage_cities"
         android:orderInCategory="1"
         android:icon="@drawable/ic_add"
         app:showAsAction="always"/>

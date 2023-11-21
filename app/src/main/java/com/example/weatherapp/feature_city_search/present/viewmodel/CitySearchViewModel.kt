@@ -25,22 +25,9 @@ class CitySearchViewModel @Inject constructor(
     }
 
     fun getCities(newCityName: String, isTyping: Boolean) = viewModelScope.launch {
-        var uiState = when {
-            // When user typing city name
-            newCityName.length > (citySearchState.value?.currentCityName?.length ?: 0) -> {
-                CitySearchUIState.Loading
-            }
-            // When user deletes city name
-            else -> {
-                CitySearchUIState.Success
-            }
-        }
-
-        // Change UI State to Loading
+        // Set new currentCityName
         _citySearchState.value = citySearchState.value?.copy(
-            // Set new currentCityName
-            currentCityName = newCityName,
-            uiState = uiState
+            currentCityName = newCityName
         )
 
         when {
@@ -55,13 +42,9 @@ class CitySearchViewModel @Inject constructor(
                 val databaseCities = citySearchUseCases.getDatabaseCities.invoke(newCityName)
 
                 // Set uiState
-                uiState = when {
+                val uiState = when {
                     WeatherApplication.hasNetwork() == false && databaseCities.isEmpty() -> {
                         CitySearchUIState.NoNetworkConnection
-                    }
-
-                    databaseCities.isEmpty() -> {
-                        CitySearchUIState.Empty
                     }
 
                     else -> {
@@ -76,8 +59,12 @@ class CitySearchViewModel @Inject constructor(
                 )
             }
 
-            // When use click on enter and "Enter location" field more than 1 char
+            // When use click on enter and "Enter location" field length more than 1 char
             !isTyping && newCityName.length >= 2 -> {
+                _citySearchState.value = citySearchState.value?.copy(
+                    uiState = CitySearchUIState.Loading
+                )
+
                 // Get cities from network
                 val networkCities = citySearchUseCases.getNetworkCities.invoke(newCityName)
 
@@ -101,7 +88,11 @@ class CitySearchViewModel @Inject constructor(
                 // Get cities from Database
                 val databaseCities = citySearchUseCases.getDatabaseCities.invoke(newCityName)
 
-                uiState = when {
+                val uiState = when {
+                    WeatherApplication.hasNetwork() == false && databaseCities.isEmpty() -> {
+                        CitySearchUIState.NoNetworkConnection
+                    }
+
                     databaseCities.isEmpty() -> {
                         CitySearchUIState.Empty
                     }

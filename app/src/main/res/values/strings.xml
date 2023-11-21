@@ -1,29 +1,35 @@
 <resources>
     <!--    App Name -->
     <string name="app_name">Weather</string>
-    <!--    Weather Text -->
-    <string name="pressure">Pressure</string>
+
+    <!--    General -->
+    <string name="back">Back</string>
+    <string name="settings">Settings</string>
+    <string name="manage_cities">Manage cities</string>
+    <string name="weather">Weather</string>
+    <string name="cancel">Cancel</string>
+    <string name="nestedscrollview" translatable="false">NestedScrollView</string>
+
+    <!--    Weather Fragment -->
     <string name="humidity">Humidity</string>
     <string name="wind_speed">Wind Speed</string>
-    <string name="week_forecast">7 Day Forecast</string>
+    <string name="precipitation">Pressure</string>
     <string name="hourly_forecast">Hourly Forecast</string>
-    <string name="weather">Weather</string>
-    <string name="add">Add</string>
-    <string name="settings">Settings</string>
+    <string name="week_forecast">7 Day Forecast</string>
+
+    <!--    Settings Fragment -->
     <string name="dark_theme">Dark Theme</string>
-    <string name="back">Back</string>
     <string name="wind_speed_unit">Wind Speed Unit</string>
     <string name="temp_unit">Temperature Unit</string>
     <string name="precipitation_unit">Precipitation Unit</string>
-    <!--    Settings Text -->
-    <string name="manage_cities">Manage cities</string>
+
+    <!--    City Search Fragment -->
     <string name="enter_location">Enter location</string>
-    <!--    Other Strings -->
-    <string name="cancel">Cancel</string>
-    <string name="nestedscrollview" translatable="false">NestedScrollView</string>
-    <!--    tvInfo text -->
+
+    <!--    Info strings for tvInfo -->
     <string name="error_message">"Error: "</string>
     <string name="searching">Searching…</string>
+    <string name="loading">Loading…</string>
     <string name="no_network_connection">No network connection</string>
     <string name="no_results">No results</string>
 </resources>

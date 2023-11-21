@@ -7,16 +7,22 @@
     android:paddingTop="12dp"
     tools:context=".feature_city_search.present.fragment.CityFragment">
 
-    <TextView
-        android:id="@+id/tvInfo"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:visibility="gone"
-        android:text="@string/searching"
-        android:textSize="16sp"
-        android:textColor="@color/primaryTextColor"/>
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tvInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/searching"
+            android:textSize="14sp"
+            android:textColor="@color/secondaryTextColor"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

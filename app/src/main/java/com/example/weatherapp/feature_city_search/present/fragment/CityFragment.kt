@@ -53,21 +53,21 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
                     }
 
                     CitySearchUIState.Loading -> {
+                        tvInfo.text = getString(R.string.searching)
                         rvCities.visibility = View.GONE
                         tvInfo.visibility = View.VISIBLE
-                        tvInfo.text = getString(R.string.searching)
                     }
 
                     CitySearchUIState.NoNetworkConnection -> {
+                        tvInfo.text = getString(R.string.no_network_connection)
                         rvCities.visibility = View.GONE
                         tvInfo.visibility = View.VISIBLE
-                        tvInfo.text = getString(R.string.no_network_connection)
                     }
 
                     CitySearchUIState.Empty -> {
+                        tvInfo.text = getString(R.string.no_results)
                         rvCities.visibility = View.GONE
                         tvInfo.visibility = View.VISIBLE
-                        tvInfo.text = getString(R.string.no_results)
                     }
                 }
 

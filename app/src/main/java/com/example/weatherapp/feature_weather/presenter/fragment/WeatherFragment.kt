@@ -74,7 +74,7 @@ class WeatherFragment : Fragment() {
                         llWeather.visibility = View.GONE
                         tvInfo.visibility = View.VISIBLE
                         tvCityName.visibility = View.INVISIBLE
-                        tvInfo.text = getString(R.string.searching)
+                        tvInfo.text = getString(R.string.loading)
                     }
 
                     WeatherUiState.Empty -> {
