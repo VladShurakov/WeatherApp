@@ -1,4 +1,4 @@
-package com.example.weatherapp.feature_weather.presenter.viewmodel
+package com.example.weatherapp.feature_weather.presenter.viewmodel.modle
 
 enum class WeatherUiState {
     Success,

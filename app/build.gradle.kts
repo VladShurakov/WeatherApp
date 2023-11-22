@@ -48,9 +48,10 @@ dependencies {
     val hiltVersion = "2.48.1"
     val retrofitVersion = "2.9.0"
     val roomVersion = "2.6.0"
+    val navVersion = "2.7.5"
 
     // Room
-    // implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
 
@@ -80,6 +81,10 @@ dependencies {
 
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
+    // Navigation
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

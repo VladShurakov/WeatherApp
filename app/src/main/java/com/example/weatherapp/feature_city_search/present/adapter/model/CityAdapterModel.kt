@@ -3,7 +3,7 @@ package com.example.weatherapp.feature_city_search.present.adapter.model
 import com.example.weatherapp.feature_city_search.domain.model.CityEntity
 import com.example.weatherapp.feature_city_search.domain.model.CityResult
 import com.example.weatherapp.feature_city_search.present.adapter.CitiesAdapter
-import com.example.weatherapp.core.NetworkResult
+import com.example.weatherapp.util.NetworkResult
 
 /*
  *  Model for City Adapter

@@ -10,12 +10,12 @@ import com.example.weatherapp.databinding.CardCityBinding
 import com.example.weatherapp.feature_city_search.domain.model.CityEntity
 import com.example.weatherapp.feature_city_search.domain.model.CityResult
 import com.example.weatherapp.feature_city_search.present.adapter.model.CityAdapterModel
-import com.example.weatherapp.core.NetworkResult
+import com.example.weatherapp.util.NetworkResult
 
 class CitiesAdapter(
     private val onCityListener: OnCityListener,
 ) : RecyclerView.Adapter<CitiesAdapter.CityHolder>() {
-    private var cityEntities = listOf<CityEntity>()
+    private var cityEntities = mutableListOf<CityEntity>()
 
     inner class CityHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = CardCityBinding.bind(view)
@@ -25,17 +25,23 @@ class CitiesAdapter(
             tvCityInfo.text = cityAdapterModel.cityInfo
             when (cityAdapterModel.cityEntity.inFavorite){
                 true -> {
-                    imFavorite.setImageResource(R.drawable.ic_star_filled)
+                    imFavorite.setImageResource(R.drawable.ic_favorite_filled)
                 }
                 false -> {
-                    imFavorite.setImageResource(R.drawable.ic_star_outfilled)
+                    imFavorite.setImageResource(R.drawable.ic_favorite_bordered)
                 }
             }
+
             itemView.setOnClickListener {
                 onCityListener.onCityClick(cityAdapterModel.cityResult)
             }
+
             imFavorite.setOnClickListener {
-                onCityListener.onFavoriteClick(cityAdapterModel.cityEntity)
+                onCityListener.toggleFavorite(cityAdapterModel.cityEntity)
+                cityEntities = cityEntities.apply {
+                    this[adapterPosition].inFavorite = !this[adapterPosition].inFavorite
+                }
+                notifyItemChanged(adapterPosition)
             }
         }
     }
@@ -89,13 +95,13 @@ class CitiesAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun setCityEntities(cityEntities: List<CityEntity>) {
-        this.cityEntities = cityEntities
+        this.cityEntities = cityEntities.toMutableList()
         notifyDataSetChanged()
     }
 
     interface OnCityListener {
         fun onCityClick(cityResult: NetworkResult<CityResult>)
 
-        fun onFavoriteClick(cityEntity: CityEntity)
+        fun toggleFavorite(cityEntity: CityEntity)
     }
 }

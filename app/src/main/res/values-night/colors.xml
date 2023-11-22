@@ -10,4 +10,5 @@
     <color name="secondaryBackground">#3C3C3C</color>
     <!--    Icon Color. -->
     <color name="invertedColor">#E6E1E5</color>
+    <color name="favoriteColor">#E91E63</color>
 </resources>

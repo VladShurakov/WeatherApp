@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="4dp"
     tools:context=".feature_city_search.present.fragment.CityFragment">
 
     <LinearLayout
@@ -33,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingTop="8dp"
             android:paddingHorizontal="12dp">
 
             <ImageButton

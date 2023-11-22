@@ -9,7 +9,7 @@ import com.example.weatherapp.feature_city_search.domain.model.CityEntity
 import com.example.weatherapp.feature_city_search.domain.use_case.CitySearchUseCases
 import com.example.weatherapp.feature_city_search.present.viewmodel.model.CitySearchState
 import com.example.weatherapp.feature_city_search.present.viewmodel.model.CitySearchUIState
-import com.example.weatherapp.core.NetworkResult
+import com.example.weatherapp.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
