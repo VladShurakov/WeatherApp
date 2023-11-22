@@ -23,7 +23,7 @@
         android:layout_gravity="center"
         android:layout_weight="1"
         android:contentDescription="@string/weather"
-        tools:src="@drawable/ic_clear_sun" />
+        tools:src="@drawable/im_clear_sun" />
 
     <TextView
         android:id="@+id/tvTemp"

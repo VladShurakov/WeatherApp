@@ -25,12 +25,16 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
     private val citySearchViewModel: CitySearchViewModel by activityViewModels()
     private val weatherViewModel: WeatherViewModel by activityViewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        citySearchViewModel.getCities("", true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        citySearchViewModel.getCities("", true)
         binding = FragmentCitySearchBinding.inflate(inflater, container, false)
         return binding?.root
     }

@@ -20,14 +20,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            tools:text="Now"/>
+            tools:text="Now" />
 
         <ImageView
             android:id="@+id/imWeather"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:contentDescription="@string/weather"
-            tools:src="@drawable/ic_clear_sun"/>
+            tools:src="@drawable/im_clear_sun"/>
 
         <TextView
             android:id="@+id/tvTemp"
