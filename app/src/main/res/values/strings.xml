@@ -9,6 +9,7 @@
     <string name="weather">Weather</string>
     <string name="cancel">Cancel</string>
     <string name="nestedscrollview" translatable="false">NestedScrollView</string>
+    <string name="favorite">Favorite</string>
 
     <!--    Weather Fragment -->
     <string name="humidity">Humidity</string>

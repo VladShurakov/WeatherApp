@@ -6,17 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.weatherapp.MainActivity
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherBinding
 import com.example.weatherapp.feature_weather.presenter.adapter.DailyWeatherAdapter
 import com.example.weatherapp.feature_weather.presenter.adapter.HourlyWeatherAdapter
-import com.example.weatherapp.feature_weather.presenter.viewmodel.WeatherUiState
+import com.example.weatherapp.feature_weather.presenter.viewmodel.modle.WeatherUiState
 import com.example.weatherapp.feature_weather.presenter.viewmodel.WeatherViewModel
-import com.example.weatherapp.core.NetworkResult
-import com.example.weatherapp.core.Screen
-import com.example.weatherapp.core.WeatherType
+import com.example.weatherapp.util.NetworkResult
+import com.example.weatherapp.util.WeatherType
 
 class WeatherFragment : Fragment() {
     private var binding: FragmentWeatherBinding? = null
@@ -29,18 +28,20 @@ class WeatherFragment : Fragment() {
     ): View? {
         // Binding
         binding = FragmentWeatherBinding.inflate(inflater, container, false)
+        binding?.apply {
+            ibSettings.setOnClickListener {
+                findNavController().navigate(R.id.navigateToSettingsFragment)
+            }
+            ibAdd.setOnClickListener {
+                findNavController().navigate(R.id.navigateToCitySearchFragment)
+            }
+        }
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
-            ibSettings.setOnClickListener {
-                (activity as MainActivity?)?.openScreen(Screen.Settings)
-            }
-            ibAdd.setOnClickListener {
-                (activity as MainActivity?)?.openScreen(Screen.SearchCity)
-            }
 
             weatherViewModel.weatherState.observe(viewLifecycleOwner) { weatherState ->
                 // Adapters

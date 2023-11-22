@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.weatherapp.MainActivity
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentCitySearchBinding
 import com.example.weatherapp.feature_city_search.domain.model.CityEntity
@@ -17,8 +17,7 @@ import com.example.weatherapp.feature_city_search.present.adapter.CitiesAdapter
 import com.example.weatherapp.feature_city_search.present.viewmodel.model.CitySearchUIState
 import com.example.weatherapp.feature_city_search.present.viewmodel.CitySearchViewModel
 import com.example.weatherapp.feature_weather.presenter.viewmodel.WeatherViewModel
-import com.example.weatherapp.core.NetworkResult
-import com.example.weatherapp.core.Screen
+import com.example.weatherapp.util.NetworkResult
 
 class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
     private var binding: FragmentCitySearchBinding? = null
@@ -83,10 +82,11 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
                         false
                     )
                     adapter = citiesAdapter
+                    itemAnimator = null
                 }
 
                 ibBack.setOnClickListener {
-                    (activity as MainActivity?)?.openScreen(Screen.Weather)
+                    findNavController().navigate(R.id.navigateToWeatherFragment)
                 }
 
                 // SearchView
@@ -111,20 +111,13 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
         binding = null
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() = CityFragment()
-    }
-
     override fun onCityClick(cityResult: NetworkResult<CityResult>) {
         weatherViewModel.getWeather(cityResult)
-        (activity as MainActivity).openScreen(Screen.Weather)
+        findNavController().navigate(R.id.navigateToWeatherFragment)
+
     }
 
-    override fun onFavoriteClick(cityEntity: CityEntity) {
+    override fun toggleFavorite(cityEntity: CityEntity) {
         citySearchViewModel.toggleFavorite(cityEntity)
-        // Get cities with new data
-        val cityName = citySearchViewModel.citySearchState.value?.currentCityName ?: ""
-        citySearchViewModel.getCities(cityName, true)
     }
 }

@@ -8,14 +8,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentSettingsBinding
 import com.example.weatherapp.feature_settings.domain.model.weather_unit.PrecipitationUnit
 import com.example.weatherapp.feature_settings.domain.model.SettingsBundle
 import com.example.weatherapp.feature_settings.domain.model.weather_unit.TempUnit
 import com.example.weatherapp.feature_settings.domain.model.weather_unit.WindSpeedUnit
-import com.example.weatherapp.MainActivity
-import com.example.weatherapp.core.Screen
 import com.example.weatherapp.feature_settings.presenter.viewmodel.SettingsViewModel
 
 class SettingsFragment : Fragment() {
@@ -36,7 +35,7 @@ class SettingsFragment : Fragment() {
         binding?.apply {
             // Back button
             ibBack.setOnClickListener {
-                (activity as MainActivity?)?.openScreen(Screen.Weather)
+                findNavController().navigate(R.id.navigateToWeatherFragment)
             }
 
             // Init Temp Unit
@@ -164,9 +163,5 @@ class SettingsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-    }
-
-    companion object {
-        fun newInstance() = SettingsFragment()
     }
 }

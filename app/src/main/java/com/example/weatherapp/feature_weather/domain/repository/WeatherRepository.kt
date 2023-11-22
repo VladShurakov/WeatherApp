@@ -6,7 +6,7 @@ import com.example.weatherapp.feature_weather.domain.model.HourlyWeather
 import com.example.weatherapp.feature_settings.domain.model.weather_unit.PrecipitationUnit
 import com.example.weatherapp.feature_settings.domain.model.weather_unit.TempUnit
 import com.example.weatherapp.feature_settings.domain.model.weather_unit.WindSpeedUnit
-import com.example.weatherapp.core.NetworkResult
+import com.example.weatherapp.util.NetworkResult
 
 interface WeatherRepository {
     suspend fun getCurrentWeather(

@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.feature_weather.domain.model.DailyWeather
 import com.example.weatherapp.databinding.CardDailyWeatherBinding
-import com.example.weatherapp.core.WeatherType
-import com.example.weatherapp.core.NetworkResult
+import com.example.weatherapp.util.WeatherType
+import com.example.weatherapp.util.NetworkResult
 import com.example.weatherapp.feature_weather.presenter.adapter.model.DailyWeatherAdapterModel
 import java.lang.Exception
 

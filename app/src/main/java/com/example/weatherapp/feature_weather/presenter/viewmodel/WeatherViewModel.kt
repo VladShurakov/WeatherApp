@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.feature_city_search.domain.model.CityResult
 import com.example.weatherapp.feature_settings.domain.use_case.SettingsUseCases
 import com.example.weatherapp.feature_weather.domain.use_case.WeatherUseCases
-import com.example.weatherapp.core.NetworkResult
+import com.example.weatherapp.util.NetworkResult
+import com.example.weatherapp.feature_weather.presenter.viewmodel.modle.WeatherState
+import com.example.weatherapp.feature_weather.presenter.viewmodel.modle.WeatherUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
