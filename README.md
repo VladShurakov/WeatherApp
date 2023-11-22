@@ -5,7 +5,7 @@
 ![weatherappbanner](https://github.com/VladShurakov/WeatherApp/assets/117427146/714f7b54-3420-4c63-bf00-710d2518c3c7)
 
 <p align="center">
-  <img alt="GitHub" src="https://img.shields.io/github/license/VladShurakov/WeatherApp?labelColor=5C5C5C&color=545CEB">
+  <img src="">
   <a href="https://android-arsenal.com/api?level=21"><img alt="Static Badge" src="https://img.shields.io/badge/21%2B-545CEB?label=API&labelColor=5C5C5C"></a>
   <a href="https://github.com/VladShurakov"><img alt="Static Badge" src="https://img.shields.io/badge/GitHub-545CEB?label=VladShurakov&labelColor=5C5C5C"></a> 
 </p>
