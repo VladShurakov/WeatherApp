@@ -82,6 +82,7 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
                         false
                     )
                     adapter = citiesAdapter
+                    itemAnimator = null
                 }
 
                 ibBack.setOnClickListener {
