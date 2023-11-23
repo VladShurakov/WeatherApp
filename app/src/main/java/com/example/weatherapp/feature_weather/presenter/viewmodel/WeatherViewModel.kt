@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.feature_city_search.domain.model.CityResult
 import com.example.weatherapp.feature_settings.domain.use_case.SettingsUseCases
 import com.example.weatherapp.feature_weather.domain.use_case.WeatherUseCases
+import com.example.weatherapp.feature_weather.presenter.viewmodel.modle.WeatherEvent
 import com.example.weatherapp.util.NetworkResult
 import com.example.weatherapp.feature_weather.presenter.viewmodel.modle.WeatherState
 import com.example.weatherapp.feature_weather.presenter.viewmodel.modle.WeatherUiState
@@ -23,26 +24,32 @@ class WeatherViewModel @Inject constructor(
     private val _weatherState = MutableLiveData(WeatherState())
     val weatherState: LiveData<WeatherState> = _weatherState
 
-    fun getWeather(cityResult: NetworkResult<CityResult>) = viewModelScope.launch {
-        val uiState = when (weatherState.value?.cityResult) {
-            // cityResult(city) same
-            cityResult -> WeatherUiState.Success
-            // cityResult(city) new
-            else -> WeatherUiState.Loading
+    fun onEvent(event: WeatherEvent) {
+        when (event) {
+            is WeatherEvent.GetWeather -> {
+                if (weatherState.value?.cityResult != event.cityResult) {
+                    getWeather(event.cityResult)
+                }
+            }
         }
+    }
+
+    private fun getWeather(cityResult: NetworkResult<CityResult>) = viewModelScope.launch {
         // Init uiState
         _weatherState.value = _weatherState.value?.copy(
-            uiState = uiState
+            uiState = WeatherUiState.Loading
         )
 
         when (cityResult) {
             is NetworkResult.Success -> {
+                //Geo
                 val latitude = cityResult.data.latitude ?: 60.0
                 val longitude = cityResult.data.longitude ?: 60.0
+                // Settings for weather
                 val settings = settingsUseCases.getSettings.invoke()
-                val tempUnit = settings.tempUnit
-                val windSpeedUnit = settings.windSpeedUnit
-                val precipitationUnit = settings.precipitationUnit
+                val tempUnit = settings.tempUnit ?: "celsius"
+                val windSpeedUnit = settings.windSpeedUnit ?: "ms"
+                val precipitationUnit = settings.precipitationUnit ?: "mm"
 
                 val currentWeather = weatherUseCases.getCurrentWeather.invoke(
                     latitude, longitude,
@@ -57,16 +64,13 @@ class WeatherViewModel @Inject constructor(
                     tempUnit, windSpeedUnit, precipitationUnit
                 )
 
-                _weatherState.value = WeatherState(
-                    currentWeather,
-                    hourlyWeather,
-                    dailyWeather,
-                    cityResult
-                )
-
                 when (currentWeather) {
                     is NetworkResult.Success -> {
                         _weatherState.value = weatherState.value?.copy(
+                            currentWeather = currentWeather,
+                            hourlyWeather = hourlyWeather,
+                            dailyWeather = dailyWeather,
+                            cityResult = cityResult,
                             uiState = WeatherUiState.Success
                         )
                     }

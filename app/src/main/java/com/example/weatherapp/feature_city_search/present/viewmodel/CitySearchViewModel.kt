@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.WeatherApplication
 import com.example.weatherapp.feature_city_search.domain.model.CityEntity
 import com.example.weatherapp.feature_city_search.domain.use_case.CitySearchUseCases
+import com.example.weatherapp.feature_city_search.present.viewmodel.model.CitySearchEvent
 import com.example.weatherapp.feature_city_search.present.viewmodel.model.CitySearchState
 import com.example.weatherapp.feature_city_search.present.viewmodel.model.CitySearchUIState
 import com.example.weatherapp.util.NetworkResult
@@ -26,94 +27,37 @@ class CitySearchViewModel @Inject constructor(
         getFavoriteCities()
     }
 
-    fun getCities(newCityName: String, isTyping: Boolean) = viewModelScope.launch {
-        // Set new currentCityName
-        _citySearchState.value = citySearchState.value?.copy(
-            currentCityName = newCityName
-        )
-
-        when {
-            // When "Enter location" field is empty show favorite cities
-            newCityName.isEmpty() -> {
-                getFavoriteCities()
-            }
-
-            // When user is typing show cities from database
-            isTyping -> {
-                // Get cities from Database
-                val databaseCities = citySearchUseCases.getDatabaseCities.invoke(newCityName)
-
-                // Set uiState
-                val uiState = when {
-                    WeatherApplication.hasNetwork() == false && databaseCities.isEmpty() -> {
-                        CitySearchUIState.NoNetworkConnection
+    fun onEvent(event: CitySearchEvent) {
+        when (event) {
+            is CitySearchEvent.GetCities -> {
+                when {
+                    // "Enter location" field is blank -> show favorite cities
+                    event.cityName.isBlank() -> {
+                        getFavoriteCities()
                     }
 
-                    else -> {
-                        CitySearchUIState.Success
+                    // User is typing -> show cities from database
+                    event.isTyping -> {
+                        getDatabaseCities(event.cityName)
                     }
-                }
 
-                // Show cities from database
-                _citySearchState.value = citySearchState.value?.copy(
-                    cities = databaseCities,
-                    uiState = uiState
-                )
-            }
-
-            // When use click on enter and "Enter location" field length more than 1 char
-            !isTyping && newCityName.length >= 2 -> {
-                _citySearchState.value = citySearchState.value?.copy(
-                    uiState = CitySearchUIState.Loading
-                )
-
-                // Get cities from network
-                val networkCities = citySearchUseCases.getNetworkCities.invoke(newCityName)
-
-                if (networkCities is NetworkResult.Success) {
-                    citySearchUseCases.insertCities(
-                        networkCities.data.cityResults.map { cityResult ->
-                            CityEntity(
-                                id = cityResult.id ?: 0,
-                                name = cityResult.name ?: "",
-                                latitude = cityResult.latitude ?: 0.0,
-                                longitude = cityResult.longitude ?: 0.0,
-                                countryCode = cityResult.countryCode ?: "",
-                                population = cityResult.population ?: 0,
-                                country = cityResult.country ?: "",
-                                admin = cityResult.admin ?: ""
-                            )
+                    // User click on enter -> show cities from network
+                    !event.isTyping && (event.cityName.length >= 2) -> {
+                        if (event.cityName != _citySearchState.value?.currentCityName) {
+                            getNetworkCities(event.cityName)
                         }
-                    )
-                }
-
-                // Get cities from Database
-                val databaseCities = citySearchUseCases.getDatabaseCities.invoke(newCityName)
-
-                val uiState = when {
-                    WeatherApplication.hasNetwork() == false && databaseCities.isEmpty() -> {
-                        CitySearchUIState.NoNetworkConnection
-                    }
-
-                    databaseCities.isEmpty() -> {
-                        CitySearchUIState.Empty
-                    }
-
-                    else -> {
-                        CitySearchUIState.Success
                     }
                 }
+            }
 
-                _citySearchState.value = citySearchState.value?.copy(
-                    cities = databaseCities,
-                    uiState = uiState
-                )
+            is CitySearchEvent.ToggleFavorite -> {
+                toggleFavorite(event.cityEntity)
             }
         }
     }
 
     /*
-     *  Get Favorite Cities
+     *  Get favorite cities from local database
      */
     private fun getFavoriteCities() = viewModelScope.launch {
         val favoriteCities = citySearchUseCases.getFavoriteCities.invoke()
@@ -124,9 +68,96 @@ class CitySearchViewModel @Inject constructor(
     }
 
     /*
-     *  Changes inFavorite parameter in CityEntity to the opposite.
+     *  Get Cities from local database
      */
-    fun toggleFavorite(cityEntity: CityEntity) = viewModelScope.launch {
+    private fun getDatabaseCities(cityName: String) = viewModelScope.launch {
+        // Get cities from Database
+        val databaseCities = citySearchUseCases.getDatabaseCities.invoke(cityName)
+
+        // Init uiState
+        val uiState = when {
+            // No network and databaseCities empty
+            WeatherApplication.hasNetwork() == false && databaseCities.isEmpty() -> {
+                CitySearchUIState.NoNetworkConnection
+            }
+
+            else -> {
+                CitySearchUIState.Success
+            }
+        }
+
+        // Show cities from database, set uiState
+        _citySearchState.value = citySearchState.value?.copy(
+            cities = databaseCities,
+            uiState = uiState
+        )
+    }
+
+    /*
+     *  Get Cities from network
+     */
+    private fun getNetworkCities(cityName: String) = viewModelScope.launch {
+        // Set Loading uiState and update currentCityName
+        _citySearchState.value = citySearchState.value?.copy(
+            uiState = CitySearchUIState.Loading,
+            currentCityName = cityName
+        )
+
+        // Get cities from network
+        val networkCities = citySearchUseCases.getNetworkCities.invoke(cityName)
+        var networkCityEntity: List<CityEntity> = listOf()
+
+        if (networkCities is NetworkResult.Success) {
+            // Convert CityResult to CityEntity
+            networkCityEntity = networkCities.data.cityResults.map { cityResult ->
+                CityEntity(
+                    id = cityResult.id ?: 0,
+                    name = cityResult.name ?: "",
+                    latitude = cityResult.latitude ?: 0.0,
+                    longitude = cityResult.longitude ?: 0.0,
+                    countryCode = cityResult.countryCode ?: "",
+                    population = cityResult.population ?: 0,
+                    country = cityResult.country ?: "",
+                    admin = cityResult.admin ?: ""
+                )
+            }
+            // Insert cities from network to database
+            citySearchUseCases.insertCities(
+                networkCityEntity
+            )
+        }
+
+        // Get cities from Database
+        val databaseCities = citySearchUseCases.getDatabaseCities.invoke(cityName)
+
+        // Set uiState
+        val uiState = when {
+            // No network and local database is empty
+            databaseCities.isEmpty() && WeatherApplication.hasNetwork() == false -> {
+                CitySearchUIState.NoNetworkConnection
+            }
+
+            // No results(Network results were inserted into local database)
+            databaseCities.isEmpty() -> {
+                CitySearchUIState.NoResults
+            }
+
+            // Everything is good
+            else -> {
+                CitySearchUIState.Success
+            }
+        }
+
+        _citySearchState.value = citySearchState.value?.copy(
+            cities = if (networkCityEntity.size >= databaseCities.size) networkCityEntity else databaseCities,
+            uiState = uiState
+        )
+    }
+
+    /*
+     *  Changes inFavorite parameter in CityEntity to opposite.
+     */
+    private fun toggleFavorite(cityEntity: CityEntity) = viewModelScope.launch {
         // Update inFavorite
         citySearchUseCases.updateCity(cityEntity.copy(inFavorite = !cityEntity.inFavorite))
     }

@@ -1,8 +1,5 @@
 package com.example.weatherapp.feature_weather.data.repository
 
-import com.example.weatherapp.feature_settings.domain.model.weather_unit.PrecipitationUnit
-import com.example.weatherapp.feature_settings.domain.model.weather_unit.TempUnit
-import com.example.weatherapp.feature_settings.domain.model.weather_unit.WindSpeedUnit
 import com.example.weatherapp.feature_weather.data.data_sourse.WeatherApi
 import com.example.weatherapp.feature_weather.domain.model.CurrentWeather
 import com.example.weatherapp.feature_weather.domain.model.DailyWeather
@@ -19,20 +16,19 @@ class WeatherRepositoryImpl @Inject constructor(
 ) : WeatherRepository {
 
     override suspend fun getCurrentWeather(
-        latitude: Double,
-        longitude: Double,
-        tempUnit: TempUnit,
-        windSpeedUnit: WindSpeedUnit,
-        precipitationUnit: PrecipitationUnit
+        latitude: Double, longitude: Double,
+        tempUnit: String,
+        windSpeedUnit: String,
+        precipitationUnit: String
     ): NetworkResult<CurrentWeather> {
         return try {
             NetworkResult.Success(
                 data = weatherApi.getCurrentWeather(
                     latitude = latitude,
                     longitude = longitude,
-                    tempUnit = tempUnit.name,
-                    windSpeedUnit = windSpeedUnit.name,
-                    precipitationUnit = precipitationUnit.name
+                    tempUnit = tempUnit,
+                    windSpeedUnit = windSpeedUnit,
+                    precipitationUnit = precipitationUnit
                 )
             )
         } catch (exception: Exception) {
@@ -42,18 +38,18 @@ class WeatherRepositoryImpl @Inject constructor(
 
     override suspend fun getHourlyWeather(
         latitude: Double, longitude: Double,
-        tempUnit: TempUnit,
-        windSpeedUnit: WindSpeedUnit,
-        precipitationUnit: PrecipitationUnit
+        tempUnit: String,
+        windSpeedUnit: String,
+        precipitationUnit: String
     ): NetworkResult<HourlyWeather> {
         return try {
             NetworkResult.Success(
                 data = weatherApi.getHourlyWeather(
                     latitude = latitude,
                     longitude = longitude,
-                    tempUnit = tempUnit.name,
-                    windSpeedUnit = windSpeedUnit.name,
-                    precipitationUnit = precipitationUnit.name
+                    tempUnit = tempUnit,
+                    windSpeedUnit = windSpeedUnit,
+                    precipitationUnit = precipitationUnit
                 )
             )
         } catch (exception: Exception) {
@@ -62,20 +58,19 @@ class WeatherRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getDailyWeather(
-        latitude: Double,
-        longitude: Double,
-        tempUnit: TempUnit,
-        windSpeedUnit: WindSpeedUnit,
-        precipitationUnit: PrecipitationUnit
+        latitude: Double, longitude: Double,
+        tempUnit: String,
+        windSpeedUnit: String,
+        precipitationUnit: String
     ): NetworkResult<DailyWeather> {
         return try {
             NetworkResult.Success(
                 data = weatherApi.getDailyWeather(
                     latitude = latitude,
                     longitude = longitude,
-                    tempUnit = tempUnit.name,
-                    windSpeedUnit = windSpeedUnit.name,
-                    precipitationUnit = precipitationUnit.name
+                    tempUnit = tempUnit,
+                    windSpeedUnit = windSpeedUnit,
+                    precipitationUnit = precipitationUnit
                 )
             )
         } catch (exception: Exception) {

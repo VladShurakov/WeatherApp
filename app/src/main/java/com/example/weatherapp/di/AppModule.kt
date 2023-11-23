@@ -19,7 +19,6 @@ import com.example.weatherapp.feature_city_search.domain.use_case.UpdateCity
 import com.example.weatherapp.feature_settings.data.repository.SettingsRepositoryImpl
 import com.example.weatherapp.feature_settings.domain.repository.SettingsRepository
 import com.example.weatherapp.feature_settings.domain.use_case.GetSettings
-import com.example.weatherapp.feature_settings.domain.use_case.SaveSettings
 import com.example.weatherapp.feature_settings.domain.use_case.SettingsUseCases
 import com.example.weatherapp.feature_weather.data.data_sourse.WeatherApi
 import com.example.weatherapp.feature_weather.data.repository.WeatherRepositoryImpl
@@ -167,8 +166,7 @@ object AppModule {
         settingsRepository: SettingsRepository
     ): SettingsUseCases {
         return SettingsUseCases(
-            getSettings = GetSettings(settingsRepository),
-            saveSettings = SaveSettings(settingsRepository)
+            getSettings = GetSettings(settingsRepository)
         )
     }
 

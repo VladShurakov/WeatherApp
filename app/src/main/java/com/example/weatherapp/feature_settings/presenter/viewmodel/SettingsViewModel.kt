@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsUseCases: SettingsUseCases
+    settingsUseCases: SettingsUseCases
 ) : ViewModel() {
 
     private val _settingsState = MutableLiveData(SettingsBundle())
@@ -18,10 +18,5 @@ class SettingsViewModel @Inject constructor(
 
     init {
         _settingsState.value = settingsUseCases.getSettings.invoke()
-    }
-
-    fun saveSettings(settingsBundle: SettingsBundle) {
-        settingsUseCases.saveSettings.invoke(settingsBundle)
-        _settingsState.value = settingsBundle
     }
 }

@@ -18,13 +18,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        if (savedInstanceState == null) {
-            // TODO("savedInstanceState == null")
-        }
-
-        // Set theme from sharedpref
-        settingsViewModel.settingsState.observe(this) {
-            when (it.isDarkTheme) {
+        if (savedInstanceState == null){
+            // Set theme from sharedpref
+            when (settingsViewModel.settingsState.value?.isDarkTheme) {
                 true -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 }
