@@ -159,9 +159,4 @@ class WeatherFragment : Fragment() {
         super.onDestroyView()
         binding = null
     }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = WeatherFragment()
-    }
 }

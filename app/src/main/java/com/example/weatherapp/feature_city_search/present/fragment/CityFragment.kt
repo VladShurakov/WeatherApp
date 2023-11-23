@@ -16,7 +16,9 @@ import com.example.weatherapp.feature_city_search.domain.model.CityResult
 import com.example.weatherapp.feature_city_search.present.adapter.CitiesAdapter
 import com.example.weatherapp.feature_city_search.present.viewmodel.model.CitySearchUIState
 import com.example.weatherapp.feature_city_search.present.viewmodel.CitySearchViewModel
+import com.example.weatherapp.feature_city_search.present.viewmodel.model.CitySearchEvent
 import com.example.weatherapp.feature_weather.presenter.viewmodel.WeatherViewModel
+import com.example.weatherapp.feature_weather.presenter.viewmodel.modle.WeatherEvent
 import com.example.weatherapp.util.NetworkResult
 
 class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
@@ -26,13 +28,11 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        citySearchViewModel.getCities("", true)
+        citySearchViewModel.onEvent(CitySearchEvent.GetCities("", true))
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCitySearchBinding.inflate(inflater, container, false)
         return binding?.root
@@ -67,7 +67,7 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
                         tvInfo.visibility = View.VISIBLE
                     }
 
-                    CitySearchUIState.Empty -> {
+                    CitySearchUIState.NoResults -> {
                         tvInfo.text = getString(R.string.no_results)
                         rvCities.visibility = View.GONE
                         tvInfo.visibility = View.VISIBLE
@@ -77,9 +77,7 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
                 // Recycler View
                 rvCities.apply {
                     layoutManager = LinearLayoutManager(
-                        context.applicationContext,
-                        LinearLayoutManager.VERTICAL,
-                        false
+                        context.applicationContext, LinearLayoutManager.VERTICAL, false
                     )
                     adapter = citiesAdapter
                     itemAnimator = null
@@ -93,12 +91,12 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
                     androidx.appcompat.widget.SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(cityName: String): Boolean {
-                        citySearchViewModel.getCities(newCityName = cityName, isTyping = false)
+                        citySearchViewModel.onEvent(CitySearchEvent.GetCities(cityName, false))
                         return true
                     }
 
                     override fun onQueryTextChange(cityName: String): Boolean {
-                        citySearchViewModel.getCities(newCityName = cityName, isTyping = true)
+                        citySearchViewModel.onEvent(CitySearchEvent.GetCities(cityName, true))
                         return true
                     }
                 })
@@ -112,12 +110,11 @@ class CityFragment : Fragment(), CitiesAdapter.OnCityListener {
     }
 
     override fun onCityClick(cityResult: NetworkResult<CityResult>) {
-        weatherViewModel.getWeather(cityResult)
+        weatherViewModel.onEvent(WeatherEvent.GetWeather(cityResult))
         findNavController().navigate(R.id.navigateToWeatherFragment)
-
     }
 
     override fun toggleFavorite(cityEntity: CityEntity) {
-        citySearchViewModel.toggleFavorite(cityEntity)
+        citySearchViewModel.onEvent(CitySearchEvent.ToggleFavorite(cityEntity))
     }
 }

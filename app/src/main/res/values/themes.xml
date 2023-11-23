@@ -4,6 +4,10 @@
         <item name="android:navigationBarColor">@color/primaryBackground</item>
         <!--    Status Bar Color. -->
         <item name="android:statusBarColor">@color/primaryBackground</item>
+        <!--    Primary Color. -->
+        <item name="android:colorPrimary">@color/ic_launcher_background</item>
+        <item name="android:colorPrimaryDark">@color/primaryTextColor</item>
+        <item name="android:colorAccent">@color/ic_launcher_background</item>
         <!--    Another Color. -->
         <item name="drawableTint">@color/invertedColor</item>
         <item name="cardBackgroundColor">@color/primaryBackground</item>
@@ -11,12 +15,13 @@
         <item name="colorControlActivated">@color/invertedColor</item>
         <!--    Text Color. -->
         <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
         <item name="hintTextColor">@color/secondaryTextColor</item>
+        <item name="textColorAlertDialogListItem">@color/primaryTextColor</item>
         <!--    Background Color. -->
         <item name="android:windowBackground">@color/primaryBackground</item>
-        <!--    NoActionBar. -->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="colorBackgroundFloating">@color/primaryBackground</item>
     </style>
 
     <style name="Base.Theme.WeatherApp" parent="Base.V21.Theme.WeatherApp" />
@@ -27,10 +32,5 @@
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
         <item name="android:textColorSecondary">@color/secondaryTextColor</item>
         <item name="android:textColorHint">@color/secondaryTextColor</item>
-    </style>
-
-    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/secondaryBackground</item>
-        <item name="android:textColorAlertDialogListItem">@color/primaryTextColor</item>
     </style>
 </resources>

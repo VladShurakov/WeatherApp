@@ -4,5 +4,5 @@ enum class CitySearchUIState {
     Success,
     Loading,
     NoNetworkConnection,
-    Empty,
+    NoResults,
 }

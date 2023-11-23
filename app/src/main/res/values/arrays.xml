@@ -1,19 +1,36 @@
 <resources>
     <!-- Temp Unit -->
-    <string-array name="temp_units">
+    <string-array name="temp_entries">
         <item>Celsius(°C)</item>
         <item>Fahrenheit(°F)</item>
     </string-array>
+
+    <string-array name="temp_values">
+        <item>celsius</item>
+        <item>fahrenheit</item>
+    </string-array>
     <!-- Wind Speed Unit -->
-    <string-array name="wind_speed_units">
+    <string-array name="wind_speed_entries">
         <item>km/h</item>
         <item>m/s</item>
         <item>Mph</item>
         <item>Knots</item>
     </string-array>
+
+    <string-array name="wind_speed_values">
+        <item>kmh</item>
+        <item>ms</item>
+        <item>mph</item>
+        <item>kn</item>
+    </string-array>
     <!-- Precipitation Unit -->
-    <string-array name="precipitation_units">
+    <string-array name="precipitation_entries">
         <item>Millimeter</item>
         <item>Inch</item>
+    </string-array>
+
+    <string-array name="precipitation_values">
+        <item>mm</item>
+        <item>inch</item>
     </string-array>
 </resources>
